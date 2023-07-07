@@ -38,7 +38,7 @@ if st.button('Generate Future Scenario'):
     else:
         st.write('Please enter your idea.')
 
-future_gpt_response = response
+future_gpt_response = response['choices'][0]['message']['content']
 
 # Summarize and Visualize button
 if st.button('Summarize and Visualize'):
