@@ -2,7 +2,7 @@ import streamlit as st
 import openai
 
 # Set your OpenAI API key
-openai.api_key = os.getenv("keyopenai")
+openai.api_key = os.getenv("keyopenai ")
 
 # Future-GPT role assignment with context and background knowledge
 future_gpt_prompt = {
