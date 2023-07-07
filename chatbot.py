@@ -13,6 +13,13 @@ nature_role = None  # This will be determined by the supervisor
 # Define the conversation history
 conversation_history = []
 
+with st.sidebar:
+    st.header("Guide Chatbot")
+    user_question = st.text_input("Ask the guide a question:")
+    if st.button("Ask"):
+        guide_response = chat_with_gpt3_guide(user_question)
+        st.write(guide_response)
+
 def extract_nature_element(user_response):
     prompt = f"The user said: '{user_response}'. What element of nature did they express a desire to talk to?"
     response = openai.Completion.create(
