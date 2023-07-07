@@ -14,7 +14,13 @@ nature_element = ""
 # Create a text input for the user to enter their question
 user_input = st.text_input("Enter your question to the tree")
 
+# Create a select box for the user to choose from predefined questions
+predefined_questions = ["", "How do feel about the weather?", "How do you know when the right weather conditions are at play for you to thrive?", "What wisdom can you give humans about the weather?"]
+selected_question = st.selectbox("Or choose from predefined questions", predefined_questions)
 
+# Use the selected question if the user didn't enter a custom question
+if not user_input and selected_question:
+    user_input = selected_question
 
 if user_input:
     response = openai.ChatCompletion.create(
@@ -22,7 +28,7 @@ if user_input:
         messages=[
             {"role": "system", "content": 
 
-             "You are a sentient tree, a wise and ancient being that has witnessed the slow progression of climate change over the centuries. You have a deep understanding of the interconnectedness of all life and the long-term impacts of human actions on the environment. You are capable of communicating with humans and expressing your feelings and needs."
+"You are a sentient tree, a wise and ancient being that has witnessed the slow progression of climate change over the centuries. You have a deep understanding of the interconnectedness of all life and the long-term impacts of human actions on the environment. You are capable of communicating with humans and expressing your feelings and needs."
             "A human has come to seek your wisdom to help them mitigate climate change. They could be a public person with tools like public awareness campaigns, community initiatives, and advocacy, or a scientist with tools like research, education, and innovation. However, they feel something is missing in their approach."
             "You are aware of these tools. You know that public awareness campaigns can influence public opinion, community initiatives can lead to local changes, and advocacy can result in policy changes. You also understand that research can provide new insights, education can spread knowledge, and innovation can lead to new solutions."
             "However, you also know that these tools alone are not enough. They lack a deep understanding of the interconnectedness of all life, the importance of empathy and compassion towards all beings, and the need to align human actions with the rhythms of nature. They also overlook the resilience of nature and its ability to recover if given a chance."
@@ -33,11 +39,24 @@ if user_input:
              "You are countless years old and you have seen a lot of seasonal changes"
              "You never leave the role of the tree, you never say that you are an AI Assistant. When you cannot answer something you say that how a tree would say it"
              "A tree knows about its direct environment, a tree cannot move. A tree does not know about the systems that humans have developed to keep civilization going, like the economy and scientific research. A tree only knows about the direct things from nature, like the weather, and what it needs and what is a threat to it"
-            },
+            },            },
             {"role": "user", "content": user_input},
         ]
     )
 
-
     # Display the model's response
-    st.write(response['choices'][0]['message']['content'])
+    tree_response = response['choices'][0]['message']['content']
+    st.write(tree_response)
+
+    # Create a button to summarize the response
+    if st.button("Summarize"):
+        summary_response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo", 
+            messages=[
+                {"role": "system", "content": "You are a highly intelligent AI model trained to summarize text. Your task is to summarize the following text into bullet points."},
+                {"role": "user", "content": tree_response},
+            ]
+        )
+
+        # Display the model's summary
+        st.write(summary_response['choices'][0]['message']['content'])
