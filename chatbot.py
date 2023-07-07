@@ -13,6 +13,16 @@ nature_role = None  # This will be determined by the supervisor
 # Define the conversation history
 conversation_history = []
 
+def extract_nature_element(user_response):
+    prompt = f"The user said: '{user_response}'. What element of nature did they express a desire to talk to?"
+    response = openai.Completion.create(
+        engine="text-davinci-002",
+        prompt=prompt,
+        temperature=0.5,
+        max_tokens=100
+    )
+    return response.choices[0].text.strip()
+    
 # Define the function to chat with GPT-3
 def chat_with_gpt3(role, user_question, system_message_content):
     system_message = {
