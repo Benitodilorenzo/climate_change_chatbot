@@ -38,3 +38,26 @@ if st.button('Generate Future Scenario'):
     else:
         st.write('Please enter your idea.')
 
+# Summarize and Visualize button
+if st.button('Summarize and Visualize'):
+    if future_gpt_response:
+        # Generate a summarization prompt
+        summarization_prompt = {
+            "role": "system",
+            "content": "You are a helpful assistant. Summarize the following text: " + future_gpt_response
+        }
+
+        # Generate a response from GPT-3
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[summarization_prompt],
+        )
+
+        summary = response['choices'][0]['message']['content']
+
+        # Generate a prompt for the image creation tool
+        image_prompt = "Create an image that represents the following idea: " + summary
+
+        st.write(image_prompt)
+    else:
+        st.write('Please generate a future scenario first.')
