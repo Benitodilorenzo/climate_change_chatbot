@@ -111,14 +111,6 @@ def chat_with_gpt3_nature(user_question, nature_element):
     )
     return response['choices'][0]['message']['content']
     
-# The user interacts with the Guide-GPT instance
-guide_response = chat_with_gpt3_guide(user_question)
-
-# The user's response is analyzed by the Supervisor-GPT instance
-supervisor_response = supervisor_gpt(user_response)
-
-# The user interacts with the Nature-GPT instance
-nature_response = chat_with_gpt3_nature(user_question)
 
 # Define the function to chat with GPT-3
 def chat_with_gpt3(role, user_question, system_message_content):
@@ -173,3 +165,12 @@ with st.sidebar:
     if st.button("Ask"):
         guide_response = chat_with_gpt3_guide(user_question)
         st.write(guide_response)
+
+# The user interacts with the Guide-GPT instance
+guide_response = chat_with_gpt3_guide(user_question)
+
+# The user's response is analyzed by the Supervisor-GPT instance
+supervisor_response = supervisor_gpt(user_response)
+
+# The user interacts with the Nature-GPT instance
+nature_response = chat_with_gpt3_nature(user_question)
