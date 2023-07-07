@@ -1,9 +1,8 @@
 import streamlit as st
 import openai
-import os
 
 # Set your OpenAI API key
-openai.api_key = os.getenv("keyopenai")
+openai.api_key = 'your-api-key'
 
 # Future-GPT role assignment with context and background knowledge
 future_gpt_prompt = {
@@ -24,6 +23,7 @@ st.title('Climate Change Chatbot')
 # User inputs their idea
 user_idea_content = st.text_input('Enter your idea here:')
 
+# Generate Future Scenario button
 if st.button('Generate Future Scenario'):
     if user_idea_content:
         user_idea = {"role": "user", "content": user_idea_content}
@@ -34,11 +34,10 @@ if st.button('Generate Future Scenario'):
             messages=[future_gpt_prompt, user_idea],
         )
 
-        st.write(response['choices'][0]['message']['content'])
+        future_gpt_response = response['choices'][0]['message']['content']
+        st.write(future_gpt_response)
     else:
         st.write('Please enter your idea.')
-
-future_gpt_response = response['choices'][0]['message']['content']
 
 # Summarize and Visualize button
 if st.button('Summarize and Visualize'):
