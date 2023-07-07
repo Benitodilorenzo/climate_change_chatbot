@@ -1,4 +1,5 @@
 import openai
+import os
 import streamlit as st
 
 # Get the OpenAI key from the Streamlit secrets
