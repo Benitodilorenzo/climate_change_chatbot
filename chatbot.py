@@ -13,12 +13,7 @@ nature_role = None  # This will be determined by the supervisor
 # Define the conversation history
 conversation_history = []
 
-with st.sidebar:
-    st.header("Guide Chatbot")
-    user_question = st.text_input("Ask the guide a question:")
-    if st.button("Ask"):
-        guide_response = chat_with_gpt3_guide(user_question)
-        st.write(guide_response)
+
 
 def extract_nature_element(user_response):
     prompt = f"The user said: '{user_response}'. What element of nature did they express a desire to talk to?"
@@ -165,6 +160,13 @@ if user_input:
             # Supervisor's analysis
             supervisor_response = chat_with_gpt3(supervisor_role, user_input, f"You are the {supervisor_role} in an interactive decision tree game. Your role is to analyze the user's responses and determine if they have hit all the checkpoints.")
             missing_checkpoints = extract_missing_checkpoints(supervisor_response)  # You need to implement this function
+
+with st.sidebar:
+    st.header("Guide Chatbot")
+    user_question = st.text_input("Ask the guide a question:")
+    if st.button("Ask"):
+        guide_response = chat_with_gpt3_guide(user_question)
+        st.write(guide_response)
 
             # Guide's suggestions
             if missing_checkpoints:
