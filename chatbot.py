@@ -14,7 +14,7 @@ nature_role = None  # This will be determined by the supervisor
 conversation_history = []
 
 user_question = "What am i supposed to do? How does this game work?"
-
+user_response = ""
 def extract_nature_element(user_response):
     prompt = f"The user said: '{user_response}'. What element of nature did they express a desire to talk to?"
     response = openai.Completion.create(
