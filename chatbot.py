@@ -13,7 +13,7 @@ nature_role = None  # This will be determined by the supervisor
 # Define the conversation history
 conversation_history = []
 
-
+user_question = "What am i supposed to do? How does this game work?"
 
 def extract_nature_element(user_response):
     prompt = f"The user said: '{user_response}'. What element of nature did they express a desire to talk to?"
