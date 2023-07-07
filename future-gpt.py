@@ -24,6 +24,7 @@ st.title('Climate Change Chatbot')
 # User inputs their idea
 user_idea_content = st.text_input('Enter your idea here:')
 
+future_gpt_response = ''
 # Generate Future Scenario button
 if st.button('Generate Future Scenario'):
     if user_idea_content:
