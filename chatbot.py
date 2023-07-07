@@ -9,6 +9,7 @@ openai.api_key = os.getenv("openaikey")
 guide_role = "Guide"
 supervisor_role = "Supervisor"
 nature_role = None  # This will be determined by the supervisor
+nature_element = ""
 
 # Define the conversation history
 conversation_history = []
