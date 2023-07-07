@@ -80,10 +80,10 @@ def chat_with_gpt3_guide(user_question):
             "and develop more granulated building blocks for their strategies. "
             "Remember, the game is designed to be interactive and dynamic, "
             "and the user's decisions can change the course of the game."
-            "the first choise the user must make is, to what element the user wants to talk to"
+            "the first choice the user must make is, to what element the user wants to talk to"
             "this element could be anything within the animal kingdom, the trees and plant world or the landscape such as mountains, rivers, fire and water and so on"
-            "this element will be represented and is like a sentient beeing"
-            "if the user asks anything about what they should do or whats the next step, you can motivate the user to investigate further or clarify the input you expect"
+            "this element will be like a living sentient being with feelings and opinions, from the perspective of that element"
+            "if the user asks anything about what they should do or what the next step is, you can motivate the user to investigate further or clarify the input you expect"
         )
     }
     user_message = {
