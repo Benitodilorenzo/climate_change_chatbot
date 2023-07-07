@@ -22,7 +22,102 @@ def extract_nature_element(user_response):
         max_tokens=100
     )
     return response.choices[0].text.strip()
+
+def supervisor_gpt(user_response):
+    # Extract nature element from user's response
+    nature_element = extract_nature_element(user_response)
+
+    # If no nature element is identified, instruct the guide to ask the user again
+    if not nature_element:
+        guide_message = {
+            "role": "system",
+            "content": (
+                "The user hasn't expressed a desire to talk to any specific element of nature. "
+                "Please ask the user again to specify an element of nature they want to talk to."
+            )
+        }
+        user_message = {
+            "role": "user",
+            "content": user_response
+        }
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[guide_message, user_message]
+        )
+        return response['choices'][0]['message']['content']
+    else:
+        # If a nature element is identified, start a new conversation with the nature instance
+        system_message = {
+            "role": "system",
+            "content": (
+                f"You are a sentient representation of {nature_element}. "
+                "You can communicate with humans and express your feelings about climate change."
+            )
+        }
+        user_message = {
+            "role": "user",
+            "content": f"Hello {nature_element}, how do you feel about climate change?"
+        }
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[system_message, user_message]
+        )
+        return response['choices'][0]['message']['content']
+
+
+def chat_with_gpt3_guide(user_question):
+    system_message = {
+        "role": "system",
+        "content": (
+            "You are the guide in an interactive decision tree game. "
+            "The user has chosen a character and has been assigned a set of tools. "
+            "Your role is to help the user navigate the game, understand the rules, "
+            "and provide support when needed. "
+            "The user will interact with various stakeholders in the game environment, "
+            "formulate ideas using their tools, and test these ideas by applying them to the stakeholders. "
+            "You should ask critical or suggestive questions to help the user refine their toolbox "
+            "and develop more granulated building blocks for their strategies. "
+            "Remember, the game is designed to be interactive and dynamic, "
+            "and the user's decisions can change the course of the game."
+        )
+    }
+    user_message = {
+        "role": "user",
+        "content": user_question
+    }
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[system_message, user_message]
+    )
+    return response['choices'][0]['message']['content']
+
+def chat_with_gpt3_nature(user_question, nature_element):
+    system_message = {
+        "role": "system",
+        "content": (
+            f"You are a sentient representation of {nature_element}. "
+            "You can communicate with humans and express your feelings about climate change."
+        )
+    }
+    user_message = {
+        "role": "user",
+        "content": user_question
+    }
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[system_message, user_message]
+    )
+    return response['choices'][0]['message']['content']
     
+# The user interacts with the Guide-GPT instance
+guide_response = chat_with_gpt3_guide(user_question)
+
+# The user's response is analyzed by the Supervisor-GPT instance
+supervisor_response = supervisor_gpt(user_response)
+
+# The user interacts with the Nature-GPT instance
+nature_response = chat_with_gpt3_nature(user_question)
+
 # Define the function to chat with GPT-3
 def chat_with_gpt3(role, user_question, system_message_content):
     system_message = {
