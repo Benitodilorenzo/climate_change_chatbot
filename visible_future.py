@@ -64,14 +64,14 @@ if st.button('Summarize and Visualize'):
         # Generate a prompt for the image creation tool
         image_prompt = "Create an image that represents the following idea: " + summary
 
-        # Call the OpenAI API for Dall-e image generation
-        response = openai.Completion.create(
-            engine="dall-e",
-            prompt=image_prompt,
-            max_tokens=50,  # Adjust the max tokens as per your requirement
-        )
+        response = openai.Image.create(
+              prompt=summary,
+              n=1,
+              size="1024x1024"
+            )
+            image_url = response['data'][0]['url']
 
-        image_url = response.choices[0].text.strip()
+   
 
         # Display the generated image
         st.image(image_url)
