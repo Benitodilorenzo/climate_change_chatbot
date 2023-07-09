@@ -68,6 +68,7 @@ if st.button('Summarize and Visualize'):
               n=1,
               size="1024x1024"
             )
+        print(response)
         image_url = response['data'][0]['url']
 
    
