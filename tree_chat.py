@@ -4,19 +4,18 @@ import streamlit as st
 
 background_image_url = "https://img.freepik.com/premium-photo/giant-fantasy-tree-with-face_176873-17591.jpg"  # Set the URL of your background image
 
-# Apply CSS styling to set the background image
-st.markdown(
-    f"""
+# Define the CSS style for the background image
+background_style = f"""
     <style>
     body {{
         background-image: url('{background_image_url}');
         background-size: cover;
-        background-repeat: no-repeat;
     }}
     </style>
-    """,
-    unsafe_allow_html=True
-)
+"""
+
+# Use the `style` parameter of `st.markdown()` to apply the background style
+st.markdown(background_style, unsafe_allow_html=True)
 
 # Set the OpenAI API key
 openai.api_key = os.getenv("openaikey")
