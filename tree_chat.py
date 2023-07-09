@@ -2,20 +2,18 @@ import openai
 import os
 import streamlit as st
 
-font_color = "white"  # Set your desired font color
 
 def set_page_style():
     st.markdown(
         """
         <style>
         .stApp {
-            color: font_color; /* Change the color value to your desired color */
+            color: white; /* Change the color value to your desired color */
         }
         </style>
         """,
         unsafe_allow_html=True
     )
-set_page_style()
 
 def add_bg_from_url():
     st.markdown(
@@ -31,7 +29,8 @@ def add_bg_from_url():
          unsafe_allow_html=True
      )
 
-add_bg_from_url() 
+add_bg_from_url()
+set_page_style()
 
 # Set the OpenAI API key
 openai.api_key = os.getenv("openaikey")
