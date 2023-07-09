@@ -2,6 +2,20 @@ import openai
 import os
 import streamlit as st
 
+font_color = "white"  # Set your desired font color
+
+# Apply CSS styling to set the font color
+st.markdown(
+    f"""
+    <style>
+    body {{
+        color: {font_color};
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 def add_bg_from_url():
     st.markdown(
          f"""
