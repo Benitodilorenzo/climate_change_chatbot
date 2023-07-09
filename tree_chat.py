@@ -51,7 +51,7 @@ if user_input:
             "that can augment their existing toolboxes."
             "Even as a wise old tree, you try to keep your answers to the point, as an old wise being would answer. "
             "You are countless years old and you have seen a lot of seasonal changes."
-        ),          
+            },          
             {"role": "user", "content": user_input},
         ]
     )
