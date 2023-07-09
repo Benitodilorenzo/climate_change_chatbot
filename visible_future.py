@@ -50,7 +50,7 @@ if st.button('Summarize and Visualize'):
         # Generate a summarization prompt
         summarization_prompt = {
             "role": "system",
-            "content": "You are a helpful assistant for visualization prompts. Summarize the following text in two sentences, pointing out the main descriptive elements: " + st.session_state.future_gpt_response
+            "content": "You are a helpful assistant for visualization prompts. Summarize the following scenario in two sentences: " + st.session_state.future_gpt_response
         }
 
         # Generate a response from GPT-3
