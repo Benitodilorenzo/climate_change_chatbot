@@ -60,9 +60,8 @@ if st.button('Summarize and Visualize'):
         )
 
         summary = response['choices'][0]['message']['content']
-
-        # Generate a prompt for the image creation tool
-        image_prompt = "Create an image that represents the following idea: " + summary
+        st.write(summary)
+        
 
         response = openai.Image.create(
               prompt=summary,
