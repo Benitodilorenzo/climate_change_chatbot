@@ -2,7 +2,7 @@ import openai
 import os
 import streamlit as st
 
-background_image_url = "https://img.freepik.com/premium-photo/giant-fantasy-tree-with-face_176873-17591.jpg?w=2000"  # Set the URL of your background image
+background_image_url = "https://img.freepik.com/premium-photo/giant-fantasy-tree-with-face_176873-17591.jpg"  # Set the URL of your background image
 
 # Apply CSS styling to set the background image
 st.markdown(
