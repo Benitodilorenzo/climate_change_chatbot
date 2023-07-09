@@ -19,7 +19,11 @@ future_gpt_prompt = {
     )
 }
 
-st.title('Climate Change Chatbot')
+st.title('A Call from the Future')
+st.write('Rrrrring, rrrrring. Hello?')
+st.write('...')
+st.write('I am the future, i can assist you.')
+st.write('Just tell me your ideas, after your conversation with the wise tree. Maybe we will find out, how the future could look like when your idea comes to life.')
 
 # User inputs their idea
 user_idea_content = st.text_input('Enter your idea here:')
