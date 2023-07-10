@@ -20,7 +20,7 @@ def add_bg_from_url():
          f"""
          <style>
          .stApp {{
-             background-image: url("https://img.freepik.com/premium-photo/giant-fantasy-tree-with-face_176873-17591.jpg");
+             background-image: url("https://static.bnr.bg/gallery/cr/17b5120bb4748526a2720bbd9ac1a1d2.jpg");
              background-attachment: fixed;
              background-size: cover
          }}
