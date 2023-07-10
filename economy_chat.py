@@ -45,7 +45,7 @@ nature_element = ""
 user_input = st.text_input("Enter your question to the tree")
 
 # Create a select box for the user to choose from predefined questions
-predefined_questions = ["", "How do feel about the weather?", "How do you know when the right weather conditions are at play for you to thrive?", "What wisdom can you give humans about the weather?"]
+predefined_questions = ["", "How can we help farmers in South Africa to get better harvesting results?", "How can we bring people to understand nature and become more aligned with it?", "What wisdom can you give me about the economic aspects of helping farmers in South Africa?"]
 selected_question = st.selectbox("Or choose from predefined questions", predefined_questions)
 
 # Use the selected question if the user didn't enter a custom question
