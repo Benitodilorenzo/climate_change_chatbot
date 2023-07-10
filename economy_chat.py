@@ -42,7 +42,7 @@ nature_role = None  # This will be determined by the supervisor
 nature_element = ""
 
 # Create a text input for the user to enter their question
-user_input = st.text_input("Enter your question to the tree")
+user_input = st.text_input("Enter your question to the economy itself")
 
 # Create a select box for the user to choose from predefined questions
 predefined_questions = ["", "How can we help farmers in South Africa to get better harvesting results?", "How can we bring people to understand nature and become more aligned with it?", "What wisdom can you give me about the economic aspects of helping farmers in South Africa?"]
