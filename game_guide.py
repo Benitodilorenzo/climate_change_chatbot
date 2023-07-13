@@ -91,8 +91,8 @@ def guide_gpt_conversation(user_inputs, conversation=None):
     # Generate a response from Guide-GPT
     response = openai.ChatCompletion.create(
 
-    endpoint="davinci",  # Use the appropriate endpoint for Chat API
-    model="davinci",  # Use the appropriate model for Chat API
+    
+    model="gpt-3.5-turbo-16k",  # Use the appropriate model for Chat API
     messages=messages,
     )
     
