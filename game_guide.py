@@ -92,7 +92,7 @@ def guide_gpt_conversation(user_inputs, conversation=None):
 
     # Generate a response from Guide-GPT
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-16k",
+        model="gpt-3.5-turbo",
         messages=messages,
     )
 
