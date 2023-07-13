@@ -68,6 +68,15 @@ def run_game():
         st.write("Guide:", guide_response)
         # Add code to continue the conversation with the guide here
 
+        # Example conversation loop
+        while True:
+            user_input = st.text_input("You: ")
+            if user_input:
+                guide_response = guide_gpt_response(user_input)
+                st.write("Guide:", guide_response)
+            else:
+                break
+
     elif choice == "No, I am not ready yet.":
         guide_response = guide_gpt_response("The user has not entered the room.")  # Guide tries to convince the user to enter
         st.write("Guide:", guide_response)
