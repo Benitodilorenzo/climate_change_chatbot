@@ -64,6 +64,7 @@ def guide_gpt_conversation(user_inputs):
 
 
 # Main function to run the interactive user journey
+# Main function to run the interactive user journey
 def run_game():
     display_guide_image()  # Display the guide image initially
     choice = guide_initial_message()  # Ask the user to make a choice
@@ -72,20 +73,19 @@ def run_game():
         user_inputs = ["The user has decided to enter the room."]  # Send the user's choice as the first input to Guide-GPT
         guide_responses = guide_gpt_conversation(user_inputs)
         for guide_response in guide_responses:
-            st.write("Guide:", guide_response['text'])
+            st.write("Guide:", guide_response)
 
         display_room_image()  # Display the room image
         user_inputs = st.text_input("You: ", key="user_input", value="", help="Type your message here").split('\n')
         guide_responses = guide_gpt_conversation(user_inputs)
         for guide_response in guide_responses:
-            st.write("Guide:", guide_response['text'])
+            st.write("Guide:", guide_response)
 
     elif choice == "No, I am not ready yet.":
         user_inputs = ["The user has decided not to enter the room."]  # Send the user's choice as the first input to Guide-GPT
         guide_responses = guide_gpt_conversation(user_inputs)
         for guide_response in guide_responses:
-            st.write("Guide:", guide_response['text'])
-
+            st.write("Guide:", guide_response)
 
 # Run the game
 if __name__ == "__main__":
