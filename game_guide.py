@@ -47,7 +47,6 @@ def guide_initial_message():
     choice = st.radio("Choose your path:", ("Yes, I will enter.", "No, I am not ready yet."))
     return choice
 
-# Guide-GPT function to have an interactive conversation
 def guide_gpt_conversation(user_inputs):
     messages = [guide_gpt_prompt]
     messages.extend([{"role": "user", "content": user_input} for user_input in user_inputs])
@@ -61,9 +60,10 @@ def guide_gpt_conversation(user_inputs):
     guide_responses = []
     for msg in response['choices']:
         if 'message' in msg and 'content' in msg['message']:
-            guide_responses.append(msg['message']['content']['text'])
+            guide_responses.append(msg['message']['content'])
 
     return guide_responses
+
 
 
 
