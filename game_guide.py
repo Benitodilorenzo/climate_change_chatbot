@@ -115,10 +115,12 @@ def run_game():
             st.write("Guide:", guide_response)
 
         display_room_image()  # Display the room image
-        user_inputs = st.text_input("You: ", key="user_input", value="", help="Type your message here").split('\n')
-        guide_responses = guide_gpt_conversation(user_inputs, conversation=guide_responses)  # Pass the conversation history
-        for guide_response in guide_responses:
-            st.write("Guide:", guide_response)
+        user_input = st.text_input("You: ", key="user_input", value="", help="Type your message here")
+        if user_input:
+            user_inputs = [user_input]
+            guide_responses = guide_gpt_conversation(user_inputs, conversation=guide_responses)  # Pass the conversation history
+            for guide_response in guide_responses:
+                st.write("Guide:", guide_response)
 
     elif choice == "No, I am not ready yet.":
         user_inputs = ["The user has decided not to enter the room."]  # Send the user's choice as the first input to Guide-GPT
@@ -129,6 +131,7 @@ def run_game():
     # Clear conversation history if the user decides not to enter the room
     if choice != "Yes, I will enter.":
         guide_responses = []
+
 
 
 # Run the game
