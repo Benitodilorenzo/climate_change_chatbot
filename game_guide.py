@@ -38,9 +38,11 @@ st.title("Baobab Forest Game")
 def display_room_image():
     st.image("https://cdn.discordapp.com/attachments/941971306004504638/1128989810896416839/data.designer_None_c6464434-9d3f-4141-a5be-38a3c043f37d.png", caption="Welcome to the room!")
 
+
 # Function to display the guide image
 def display_guide_image():
     st.image("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGT_DoF7bS45mHupRID8S16NCEsIR2qn1qpMOHoWJVtQNmAu9poj3wpd7loO_4jKtK1Hc&usqp=CAU", caption="The guide awaits your decision.")
+
 
 # Function to display the guide's initial message and get user choice
 def guide_initial_message():
@@ -48,10 +50,40 @@ def guide_initial_message():
     choice = st.radio("Choose your path:", ("Yes, I will enter.", "No, I am not ready yet."))
     return choice
 
+
+# Function to summarize text using ChatGPT
+def summarize_text(text):
+    response = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=text,
+        max_tokens=50,
+        temperature=0.3,
+        n=1,
+        stop=None,
+    )
+    summary = response.choices[0].text.strip()
+    return summary
+
+
+# Function to process and summarize the conversation history
+def summarize_conversation(conversation):
+    summarized_conversation = []
+    for message in conversation:
+        if message["role"] == "user":
+            user_input = message["content"]
+            summarized_user_input = summarize_text(user_input)
+            summarized_conversation.append({"role": "user", "content": summarized_user_input})
+        else:
+            summarized_conversation.append(message)
+    return summarized_conversation
+
+
+# Function to generate guide responses using Guide-GPT
 def guide_gpt_conversation(user_inputs, conversation=None):
     messages = []
     if conversation:
-        messages.extend(conversation)  # Append the conversation history to the messages
+        summarized_conversation = summarize_conversation(conversation)
+        messages.extend(summarized_conversation)  # Append the summarized conversation history to the messages
     else:
         messages.append(guide_gpt_prompt)  # Add the initial guide prompt message
     messages.extend([{"role": "user", "content": user_input} for user_input in user_inputs])
@@ -69,7 +101,6 @@ def guide_gpt_conversation(user_inputs, conversation=None):
 
     return guide_responses
 
-guide_responses = []
 
 def run_game():
     display_guide_image()  # Display the guide image initially
@@ -92,10 +123,11 @@ def run_game():
         guide_responses = guide_gpt_conversation(user_inputs)
         for guide_response in guide_responses:
             st.write("Guide:", guide_response)
-    
+
     # Clear conversation history if the user decides not to enter the room
     if choice != "Yes, I will enter.":
         guide_responses = []
+
 
 # Run the game
 if __name__ == "__main__":
