@@ -69,13 +69,14 @@ def summarize_text(text):
 def summarize_conversation(conversation):
     summarized_conversation = []
     for message in conversation:
-        if message["role"] == "user":
+        if isinstance(message, str):
+            summarized_conversation.append(message)  # Add non-user messages as-is
+        elif message["role"] == "user":
             user_input = message["content"]
-            summarized_user_input = summarize_text(user_input)
-            summarized_conversation.append({"role": "user", "content": summarized_user_input})
-        else:
-            summarized_conversation.append({"role": "system", "content": message["content"]})
+            summarized_input = summarize_text(user_input)  # Summarize the user message
+            summarized_conversation.append({"role": "user", "content": summarized_input})
     return summarized_conversation
+
 
 
 # Function to generate guide responses using Guide-GPT
