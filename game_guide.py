@@ -89,9 +89,9 @@ def guide_gpt_conversation(user_inputs, conversation=None):
     messages.extend([{"role": "user", "content": user_input} for user_input in user_inputs])
 
     # Generate a response from Guide-GPT
-    response = openai.Completion.create(
+    response = openai.ChatCompletion.create(
         engine="text-davinci-003",
-        messages=messages,
+        messages = [guide_gpt_prompt],
     )
 
     guide_responses = []
