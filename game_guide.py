@@ -49,10 +49,12 @@ def guide_initial_message():
     return choice
 
 def guide_gpt_conversation(user_inputs, conversation=None):
-    messages = [guide_gpt_prompt]
-    messages.extend([{"role": "user", "content": user_input} for user_input in user_inputs])
+    messages = []
     if conversation:
         messages.extend(conversation)  # Append the conversation history to the messages
+    else:
+        messages.append(guide_gpt_prompt)  # Add the initial guide prompt message
+    messages.extend([{"role": "user", "content": user_input} for user_input in user_inputs])
 
     # Generate a response from Guide-GPT
     response = openai.ChatCompletion.create(
@@ -98,4 +100,3 @@ def run_game():
 # Run the game
 if __name__ == "__main__":
     run_game()
-
