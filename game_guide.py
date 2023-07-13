@@ -88,3 +88,6 @@ def run_game():
         for guide_response in guide_responses:
             st.write("Guide:", guide_response)
 
+# Run the game
+if __name__ == "__main__":
+    run_game()
