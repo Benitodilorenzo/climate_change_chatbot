@@ -53,16 +53,17 @@ def guide_initial_message():
 
 # Function to summarize text using ChatGPT
 def summarize_text(text):
-    response = openai.Completion.create(
-        engine="text-davinci-003",
-        prompt=text,
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo-16k",
+        messages=[{"role": "user", "content": text}],
         max_tokens=50,
         temperature=0.3,
         n=1,
         stop=None,
     )
-    summary = response.choices[0].text.strip()
+    summary = response.choices[0].message.content.strip()
     return summary
+
 
 
 # Function to process and summarize the conversation history
