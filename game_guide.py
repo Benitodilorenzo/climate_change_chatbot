@@ -58,7 +58,11 @@ def guide_gpt_conversation(user_inputs):
         messages=messages,
     )
 
-    guide_responses = [msg['content']['text'] for msg in response['choices'] if 'content' in msg['message']]
+    guide_responses = []
+    for msg in response['choices']:
+        if 'message' in msg and 'content' in msg['message']:
+            guide_responses.append(msg['message']['content']['text'])
+
     return guide_responses
 
 
