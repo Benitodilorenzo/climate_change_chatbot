@@ -31,6 +31,21 @@ guide_gpt_prompt = {
     )
 }
 
+import streamlit as st
+import openai
+import os
+
+# Set your OpenAI API key
+openai.api_key = os.getenv("keyopenai")
+
+# Guide-GPT role assignment with context and background knowledge
+guide_gpt_prompt = {
+    "role": "system",
+    "content": (
+        # ... (The rest of the prompt content)
+    )
+}
+
 st.title("Baobab Forest Game")
 
 # Function to display the room image
@@ -47,9 +62,11 @@ def guide_initial_message():
     choice = st.radio("Choose your path:", ("Yes, I will enter.", "No, I am not ready yet."))
     return choice
 
-def guide_gpt_conversation(user_inputs):
+def guide_gpt_conversation(user_inputs, conversation=None):
     messages = [guide_gpt_prompt]
     messages.extend([{"role": "user", "content": user_input} for user_input in user_inputs])
+    if conversation:
+        messages.extend(conversation)  # Append the conversation history to the messages
 
     # Generate a response from Guide-GPT
     response = openai.ChatCompletion.create(
@@ -63,10 +80,6 @@ def guide_gpt_conversation(user_inputs):
             guide_responses.append(msg['message']['content'])
 
     return guide_responses
-
-
-
-
 
 guide_responses = []
 
@@ -82,7 +95,7 @@ def run_game():
 
         display_room_image()  # Display the room image
         user_inputs = st.text_input("You: ", key="user_input", value="", help="Type your message here").split('\n')
-        guide_responses = guide_gpt_conversation(user_inputs)
+        guide_responses = guide_gpt_conversation(user_inputs, conversation=guide_responses)  # Pass the conversation history
         for guide_response in guide_responses:
             st.write("Guide:", guide_response)
 
@@ -91,8 +104,12 @@ def run_game():
         guide_responses = guide_gpt_conversation(user_inputs)
         for guide_response in guide_responses:
             st.write("Guide:", guide_response)
-
+    
+    # Clear conversation history if the user decides not to enter the room
+    if choice != "Yes, I will enter.":
+        guide_responses = []
 
 # Run the game
 if __name__ == "__main__":
     run_game()
+
