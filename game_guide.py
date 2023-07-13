@@ -61,7 +61,7 @@ def summarize_text(text):
         n=1,
         stop=None,
     )
-    summary = response.choices[0].text.strip()
+    summary = response['choices'][0]['message']['content'].strip()
     return summary
 
 
@@ -89,10 +89,12 @@ def guide_gpt_conversation(user_inputs, conversation=None):
     messages.extend([{"role": "user", "content": user_input} for user_input in user_inputs])
 
     # Generate a response from Guide-GPT
-    response = openai.ChatCompletion.create(
-        engine="text-davinci-003",
-        messages = [guide_gpt_prompt],
+    response = openai.OpenAIApiEndpoint.create(
+    endpoint="davinci",  # Use the appropriate endpoint for Chat API
+    model="davinci",  # Use the appropriate model for Chat API
+    messages=messages,
     )
+    
 
     guide_responses = []
     for msg in response['choices']:
