@@ -56,37 +56,20 @@ def guide_gpt_conversation(user_inputs, conversation=None):
         messages.append(guide_gpt_prompt)  # Add the initial guide prompt message
     messages.extend([{"role": "user", "content": user_input} for user_input in user_inputs])
 
+    # Generate a response from Guide-GPT
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo-16k",
+        messages=messages,
+    )
+
     guide_responses = []
-    continuation_token = None
-
-    while True:
-        # Generate a response from Guide-GPT
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=messages,
-            max_tokens=100  # Adjust the max_tokens value as needed
-            continuation_token=continuation_token
-        )
-
-        partial_guide_responses = []
-        for msg in response['choices']:
-            if 'message' in msg and 'content' in msg['message']:
-                partial_guide_responses.append(msg['message']['content'])
-
-        guide_responses.extend(partial_guide_responses)
-
-        if response['choices'][-1]['message']['role'] == 'assistant' and response['choices'][-1]['message']['content'].endswith('\n'):
-            # Last message from the assistant is incomplete, continue the conversation
-            continuation_token = response['choices'][-1]['message']['content']
-            messages = [{"role": "user", "content": continuation_token}]
-
-        else:
-            # Conversation is complete
-            break
+    for msg in response['choices']:
+        if 'message' in msg and 'content' in msg['message']:
+            guide_responses.append(msg['message']['content'])
 
     return guide_responses
 
-
+guide_responses = []
 
 def run_game():
     display_guide_image()  # Display the guide image initially
