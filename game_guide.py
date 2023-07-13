@@ -86,7 +86,7 @@ def guide_gpt_conversation(user_inputs, conversation=None):
 
     return guide_responses
 
-guide_responses = []
+
 
 def run_game():
     display_guide_image()  # Display the guide image initially
