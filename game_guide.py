@@ -31,20 +31,6 @@ guide_gpt_prompt = {
     )
 }
 
-import streamlit as st
-import openai
-import os
-
-# Set your OpenAI API key
-openai.api_key = os.getenv("keyopenai")
-
-# Guide-GPT role assignment with context and background knowledge
-guide_gpt_prompt = {
-    "role": "system",
-    "content": (
-        # ... (The rest of the prompt content)
-    )
-}
 
 st.title("Baobab Forest Game")
 
