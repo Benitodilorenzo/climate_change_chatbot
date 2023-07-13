@@ -53,15 +53,15 @@ def guide_initial_message():
 
 # Function to summarize text using ChatGPT
 def summarize_text(text):
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-16k",
-        messages=[{"role": "user", "content": text}],
+    response = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=text,
         max_tokens=50,
         temperature=0.3,
         n=1,
         stop=None,
     )
-    summary = response.choices[0].message.content.strip()
+    summary = response.choices[0].text.strip()
     return summary
 
 
@@ -70,7 +70,7 @@ def summarize_conversation(conversation):
     summarized_conversation = []
     for message in conversation:
         if isinstance(message, str):
-            summarized_conversation.append(message)  # Add non-user messages as-is
+            summarized_conversation.append({"role": "system", "content": message})  # Add non-user messages as system role
         elif message["role"] == "user":
             user_input = message["content"]
             summarized_input = summarize_text(user_input)  # Summarize the user message
@@ -89,8 +89,8 @@ def guide_gpt_conversation(user_inputs, conversation=None):
     messages.extend([{"role": "user", "content": user_input} for user_input in user_inputs])
 
     # Generate a response from Guide-GPT
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
+    response = openai.Completion.create(
+        engine="text-davinci-003",
         messages=messages,
     )
 
