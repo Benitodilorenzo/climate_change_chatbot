@@ -59,8 +59,9 @@ def guide_gpt_conversation(user_inputs):
         messages=messages,
     )
 
-    guide_responses = [msg['message']['content'] for msg in response['choices'] if msg['role'] == 'system']
+    guide_responses = [msg['content']['text'] for msg in response['choices'] if msg['role'] == 'system']
     return guide_responses
+
 
 # Main function to run the interactive user journey
 def run_game():
