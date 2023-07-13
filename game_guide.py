@@ -74,7 +74,7 @@ def summarize_conversation(conversation):
             summarized_user_input = summarize_text(user_input)
             summarized_conversation.append({"role": "user", "content": summarized_user_input})
         else:
-            summarized_conversation.append(message)
+            summarized_conversation.append({"role": "system", "content": message["content"]})
     return summarized_conversation
 
 
