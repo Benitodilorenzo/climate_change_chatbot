@@ -119,7 +119,7 @@ def display_room():
 
 def interact_with_tree():
     # Create a text input for the user to enter their question
-    user_input = st.text_input("Enter your question to the tree")
+    user_input_tree = st.text_input("Enter your question to the tree")
 
     # Create a select box for the user to choose from predefined questions
     predefined_questions = [
@@ -131,10 +131,10 @@ def interact_with_tree():
     selected_question = st.selectbox("Or choose from predefined questions", predefined_questions)
 
     # Use the selected question if the user didn't enter a custom question
-    if not user_input and selected_question:
-        user_input = selected_question
+    if not user_input_tree and selected_question:
+        user_input_tree = selected_question
 
-    if user_input:
+    if user_input_tree:
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
@@ -199,7 +199,7 @@ def run_game():
 
         # Check if the user wants to interact with the tree
         if st.button("Interact with the Tree"):
-            interact_with_tree()
+            st.write(interact_with_tree())
 
     elif choice == "No, I am not ready yet.":
         user_inputs = ["The user has decided not to enter the room."]  # Send the user's choice as the first input to Guide-GPT
