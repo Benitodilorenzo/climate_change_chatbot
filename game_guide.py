@@ -107,13 +107,16 @@ def guide_gpt_conversation(user_inputs, conversation=None):
     return guide_responses
 
 
-# Store the initial decision made by the user
-initial_decision = guide_initial_message()
-
 def run_game():
     display_guide_image()  # Display the guide image initially
+    choice = guide_initial_message()  # Ask the user to make a choice
 
-    if initial_decision == "Yes, I will enter.":
+    if choice == "Yes, I will enter.":
+        user_inputs = ["The user has decided to enter the room."]  # Send the user's choice as the first input to Guide-GPT
+        guide_responses = guide_gpt_conversation(user_inputs)
+        for guide_response in guide_responses:
+            st.write("Guide:", guide_response)
+
         display_room_image()  # Display the room image
         user_input = st.text_input("You: ", key="user_input", value="", help="Type your message here")
         if user_input:
@@ -122,18 +125,16 @@ def run_game():
             for guide_response in guide_responses:
                 st.write("Guide:", guide_response)
 
-    elif initial_decision == "No, I am not ready yet.":
+    elif choice == "No, I am not ready yet.":
         user_inputs = ["The user has decided not to enter the room."]  # Send the user's choice as the first input to Guide-GPT
         guide_responses = guide_gpt_conversation(user_inputs)
         for guide_response in guide_responses:
             st.write("Guide:", guide_response)
 
     # Clear conversation history if the user decides not to enter the room
-    if initial_decision != "Yes, I will enter.":
+    if choice != "Yes, I will enter.":
         guide_responses = []
 
 # Run the game
 if __name__ == "__main__":
-    display_guide_image()  # Display the guide image initially
-    initial_decision = guide_initial_message()
     run_game()
