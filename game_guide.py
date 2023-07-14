@@ -165,7 +165,7 @@ def interact_with_tree():
 
         # Display the model's response
         tree_response = response['choices'][0]['message']['content']
-        st.write(tree_response)
+        st.write("Tree: ",tree_response)
 
         # Create a button to summarize the response
         if st.button("Summarize"):
