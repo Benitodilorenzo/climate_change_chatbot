@@ -117,6 +117,50 @@ def display_guide_response():
 def display_room():
     display_room_image()  # Display the room image
 
+def interact_with_tree():
+    # Create a text input for the user to enter their question
+    user_input = st.text_input("Enter your question to the tree")
+
+    # Create a select box for the user to choose from predefined questions
+    predefined_questions = [
+        "",
+        "How do feel about the weather?",
+        "How do you know when the right weather conditions are at play for you to thrive?",
+        "What wisdom can you give humans about the weather?"
+    ]
+    selected_question = st.selectbox("Or choose from predefined questions", predefined_questions)
+
+    # Use the selected question if the user didn't enter a custom question
+    if not user_input and selected_question:
+        user_input = selected_question
+
+    if user_input:
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "As Arbolia, you understand the challenges faced by the baobab trees ..... #role assignment"},
+                {"role": "user", "content": user_input},
+            ]
+        )
+
+        # Display the model's response
+        tree_response = response['choices'][0]['message']['content']
+        st.write(tree_response)
+
+        # Create a button to summarize the response
+        if st.button("Summarize"):
+            summary_response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": "You are a highly intelligent AI model trained to summarize text. Your task is to summarize the following text into bullet points."},
+                    {"role": "user", "content": tree_response},
+                ]
+            )
+
+            # Display the model's summary
+            st.write(summary_response['choices'][0]['message']['content'])
+
+
 def run_game():
     display_guide_image()  # Display the guide image initially
     choice = guide_initial_message()  # Ask the user to make a choice
@@ -133,6 +177,10 @@ def run_game():
             for guide_response in guide_responses:
                 st.write("Guide:", guide_response)
 
+        # Check if the user wants to interact with the tree
+        if st.button("Interact with the Tree"):
+            interact_with_tree()
+
     elif choice == "No, I am not ready yet.":
         user_inputs = ["The user has decided not to enter the room."]  # Send the user's choice as the first input to Guide-GPT
         guide_responses = guide_gpt_conversation(user_inputs)
@@ -142,6 +190,8 @@ def run_game():
     # Clear conversation history if the user decides not to enter the room
     if choice != "Yes, I will enter.":
         guide_responses = []
+
+    # ... (existing code)
 
 # Run the game
 if __name__ == "__main__":
