@@ -182,6 +182,7 @@ def interact_with_tree():
 
 conversation_history = []  # Store the conversation history
 
+
 def run_game():
     display_guide_image()  # Display the guide image initially
     choice = guide_initial_message()  # Ask the user to make a choice
@@ -199,22 +200,20 @@ def run_game():
             for guide_response in guide_responses:
                 st.write("Guide:", guide_response)
 
-        # Check if the user wants to interact with the tree
-        interact_tree = st.button("Interact with the Tree")
-        if interact_tree:
-            st.subheader("Conversation with the Tree")
-            tree_input = st.text_input("You (Tree Chat):", key="tree_input", value="", help="Type your message here")
-            if tree_input:
-                tree_inputs = [tree_input]
-                tree_responses = guide_gpt_conversation(tree_inputs, conversation=tree_responses)  # Pass the tree conversation history
-                for tree_response in tree_responses:
-                    st.write("Tree:", tree_response)
-
     elif choice == "No, I am not ready yet.":
         user_inputs = ["The user has decided not to enter the room."]  # Send the user's choice as the first input to Guide-GPT
         guide_responses = guide_gpt_conversation(user_inputs)
         for guide_response in guide_responses:
             st.write("Guide:", guide_response)
+
+    # Display the conversation with the tree
+    st.subheader("Conversation with the Tree")
+    tree_input = st.text_input("You (Tree Chat):", key="tree_input", value="", help="Type your message here")
+    if tree_input:
+        tree_inputs = [tree_input]
+        tree_responses = guide_gpt_conversation(tree_inputs, conversation=tree_responses)  # Pass the tree conversation history
+        for tree_response in tree_responses:
+            st.write("Tree:", tree_response)
 
     # Clear conversation history if the user decides not to enter the room
     if choice != "Yes, I will enter.":
@@ -224,6 +223,7 @@ def run_game():
 # Run the game
 if __name__ == "__main__":
     run_game()
+
 
 
 
