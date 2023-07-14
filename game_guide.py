@@ -198,10 +198,7 @@ def run_game():
 
         # Check if the user wants to interact with the tree
         if st.button("Interact with the Tree"):
-            with st.spinner("Waiting for the tree's response..."):
-                tree_response_placeholder = st.empty()  # Placeholder to display the tree's response
-                tree_response = interact_with_tree()  # Get the tree's response
-                tree_response_placeholder.write(tree_response)  # Display the tree's response
+            interact_with_tree()
 
     elif choice == "No, I am not ready yet.":
         user_inputs = ["The user has decided not to enter the room."]  # Send the user's choice as the first input to Guide-GPT
