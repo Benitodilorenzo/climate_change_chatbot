@@ -180,7 +180,6 @@ def interact_with_tree():
             # Display the model's summary
             st.write(summary_response['choices'][0]['message']['content'])
 
-
 def run_game():
     display_guide_image()  # Display the guide image initially
     choice = guide_initial_message()  # Ask the user to make a choice
@@ -199,9 +198,10 @@ def run_game():
 
         # Check if the user wants to interact with the tree
         if st.button("Interact with the Tree"):
-            tree_response_placeholder = st.empty()  # Placeholder to display the tree's response
-            tree_response = interact_with_tree()  # Get the tree's response
-            tree_response_placeholder.write(tree_response)  # Display the tree's response
+            with st.spinner("Waiting for the tree's response..."):
+                tree_response_placeholder = st.empty()  # Placeholder to display the tree's response
+                tree_response = interact_with_tree()  # Get the tree's response
+                tree_response_placeholder.write(tree_response)  # Display the tree's response
 
     elif choice == "No, I am not ready yet.":
         user_inputs = ["The user has decided not to enter the room."]  # Send the user's choice as the first input to Guide-GPT
@@ -212,6 +212,7 @@ def run_game():
     # Clear conversation history if the user decides not to enter the room
     if choice != "Yes, I will enter.":
         guide_responses = []
+
 
 # Run the game
 if __name__ == "__main__":
