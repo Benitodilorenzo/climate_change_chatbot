@@ -199,7 +199,7 @@ def run_game():
 
         # Check if the user wants to interact with the tree
         if st.button("Interact with the Tree"):
-            st.write(interact_with_tree())
+            interact_with_tree()
 
     elif choice == "No, I am not ready yet.":
         user_inputs = ["The user has decided not to enter the room."]  # Send the user's choice as the first input to Guide-GPT
