@@ -120,6 +120,7 @@ def display_room():
 def run_game():
     display_guide_image()  # Display the guide image initially
     choice = guide_initial_message()  # Ask the user to make a choice
+    guide_responses = []  # Initialize guide_responses
 
     if choice == "Yes, I will enter.":
         display_guide_response()  # Display the initial guide response (cached)
@@ -145,3 +146,4 @@ def run_game():
 # Run the game
 if __name__ == "__main__":
     run_game()
+
