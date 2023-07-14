@@ -186,6 +186,7 @@ def run_game():
     display_guide_image()  # Display the guide image initially
     choice = guide_initial_message()  # Ask the user to make a choice
     guide_responses = []  # Initialize guide_responses
+    tree_responses = []  # Initialize tree_responses
 
     if choice == "Yes, I will enter.":
         display_guide_response()  # Display the initial guide response (cached)
@@ -194,27 +195,34 @@ def run_game():
         user_input = st.text_input("You: ", key="user_input", value="", help="Type your message here")
         if user_input:
             user_inputs = [user_input]
-            guide_responses = guide_gpt_conversation(user_inputs, conversation=conversation_history)  # Pass the conversation history
+            guide_responses = guide_gpt_conversation(user_inputs, conversation=guide_responses)  # Pass the conversation history
             for guide_response in guide_responses:
                 st.write("Guide:", guide_response)
 
-        # Display the conversation with the tree
-        st.subheader("Conversation with the Tree")
-        tree_responses = guide_gpt_conversation([], conversation=conversation_history)  # Pass the conversation history to the tree
-        for tree_response in tree_responses:
-            st.write("Tree:", tree_response)
+        # Check if the user wants to interact with the tree
+        if st.button("Interact with the Tree"):
+            st.subheader("Conversation with the Tree")
+            tree_input = st.text_input("You (Tree Chat):", key="tree_input", value="", help="Type your message here")
+            if tree_input:
+                tree_inputs = [tree_input]
+                tree_responses = guide_gpt_conversation(tree_inputs, conversation=tree_responses)  # Pass the tree conversation history
+                for tree_response in tree_responses:
+                    st.write("Tree:", tree_response)
 
     elif choice == "No, I am not ready yet.":
         user_inputs = ["The user has decided not to enter the room."]  # Send the user's choice as the first input to Guide-GPT
-        guide_responses = guide_gpt_conversation(user_inputs, conversation=conversation_history)
+        guide_responses = guide_gpt_conversation(user_inputs)
         for guide_response in guide_responses:
             st.write("Guide:", guide_response)
 
-    # Append the conversation history
-    conversation_history.extend(guide_responses)
+    # Clear conversation history if the user decides not to enter the room
+    if choice != "Yes, I will enter.":
+        guide_responses = []
+
 
 # Run the game
 if __name__ == "__main__":
     run_game()
+
 
 
