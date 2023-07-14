@@ -200,7 +200,8 @@ def run_game():
                 st.write("Guide:", guide_response)
 
         # Check if the user wants to interact with the tree
-        if st.button("Interact with the Tree"):
+        interact_tree = st.button("Interact with the Tree")
+        if interact_tree:
             st.subheader("Conversation with the Tree")
             tree_input = st.text_input("You (Tree Chat):", key="tree_input", value="", help="Type your message here")
             if tree_input:
@@ -223,6 +224,7 @@ def run_game():
 # Run the game
 if __name__ == "__main__":
     run_game()
+
 
 
 
