@@ -162,6 +162,12 @@ def display_room():
 def interact_with_tree():
     """Interacts with the tree."""
     user_input_tree = st.text_input("Enter your question to the tree")
+    if user_input_tree:
+        tree_responses = tree_gpt_conversation([user_input_tree], conversation=session_state_tree["conversation"])
+        session_state_tree["conversation"].extend([{"role": "user", "content": user_input_tree}] + [{"role": "tree", "content": tree_response} for tree_response in tree_responses])
+        for tree_response in tree_responses:
+            st.write("Tree:", tree_response)
+
 
     predefined_questions = [
         "",
@@ -198,6 +204,7 @@ def interact_with_tree():
 conversation_history = []
 session_state_guide = {"conversation": []}
 session_state_tree = {"conversation": []}
+
 
 def run_game():
     display_guide_image()  # Display the guide image initially
