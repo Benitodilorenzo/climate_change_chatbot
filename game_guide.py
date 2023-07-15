@@ -208,7 +208,6 @@ session_state_tree = {"conversation": []}
 
 
 def run_game():
-    state = SessionState.get(user_input_guide="", user_input_tree="")
     display_guide_image()  # Display the guide image initially
     choice = guide_initial_message()  # Ask the user to make a choice
 
