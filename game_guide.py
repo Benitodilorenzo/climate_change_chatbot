@@ -209,7 +209,7 @@ session_state_tree = {"conversation": []}
 
 def run_game():
     if "user_input_guide" not in st.session_state:
-    st.session_state.user_input_guide = ""
+        st.session_state.user_input_guide = ""
 
     if "user_input_tree" not in st.session_state:
         st.session_state.user_input_tree = ""
