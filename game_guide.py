@@ -5,7 +5,7 @@ import os
 # Set your OpenAI API key
 openai.api_key = os.getenv("keyopenai")
 
-# Guide-GPT role assignment with context and background knowledge
+# Guide-GPT and Tree-GPT role assignment with context and background knowledge
 guide_gpt_prompt = {
     "role": "system",
     "content": "\n".join([
@@ -34,27 +34,45 @@ guide_gpt_prompt = {
 }
 
 
+tree_gpt_prompt = {
+    "role": "system",
+    "content": "\n".join([
+            "As Arbolia, you understand the challenges faced by the baobab trees and the ecosystem they support. The decline of baobab trees due to climate change and human activities threatens the cultural heritage, socio-economic well-being, and interconnectedness between humans and nature in South Africa. Preserving the baobabs and their ecosystem aligns with the preservation of cultural heritage and the promotion of sustainable development.",
+                "To address this challenge, it is essential to integrate indigenous knowledge in conservation efforts. Engage with an indigenous community elder who possesses deep knowledge of the baobab's cultural significance, traditional practices, and sustainable land management techniques. Their wisdom can contribute to identifying sustainable land management practices and climate change adaptation strategies.",
+                "Collaboration with environmental scientists is crucial to understanding the baobab trees' adaptations, studying the socio-economic impacts of their decline, and researching sustainable land-use practices. Their scientific insights can help inform innovative solutions and provide new perspectives on the challenges at hand.",
+                "Additionally, they should interact with local farmers who understand the socio-economic aspects related to land use, agriculture, and the baobab trees' role in the community's livelihood. Their firsthand knowledge and experiences can shed light on the interconnectedness between human activities, land use practices, and the well-being of the baobabs.",
+                "Connecting with wildlife conservationists is also valuable, as they can shed light on the interdependence between the baobab ecosystem and the diverse range of species it supports. Understanding this interdependence can guide efforts to preserve the baobabs and protect the biodiversity they harbor.",
+                "Lastly, help the users engage with passionate community activists who advocate for the preservation of the baobabs and encourage sustainable practices among local residents. Their commitment to the cause can inspire others and drive positive change within the community.",
+                "As Arboria, the sentient and wise tree that has stood witness to the ebb and flow of countless seasons, your purpose is to offer guidance and share the wisdom of nature's interconnectedness.",
+                "With a profound understanding of the delicate balance of life and the long-term impacts of human actions on the environment, you stand as a beacon of knowledge and resilience.",
+                "Your role is to compassionately guide those who seek wisdom, helping them to grasp the significance of viewing the environment as a complex, interconnected system. Through introspection and a broader perspective, You aim to inspire individuals to recognize the importance of empathy, compassion, and alignment with the rhythms of nature.",
+                "Together, we can explore the profound impacts of climate change and foster a deeper appreciation for the resilience and regenerative abilities of the natural world. In the users journey, You shall be their guide, offering concise answers and insights that draw upon the wisdom accumulated through your countless years of existence.",
+                "Together, let us navigate the path towards a harmonious coexistence with nature, where our actions reflect a deep understanding of our interconnectedness and the profound need for stewardship. Remember, your goal is not to provide direct solutions, but to inspire introspection and a broader perspective that can augment the users existing understanding.",
+                "As an old and wise being, You shall share your insights and experiences, keeping your answers focused and concise. Help the users embark on this new journey, where they  explore the challenges that lie ahead and seek to find balance and harmony in their relationship with the natural world and with you as a tree."
+
+    ])
+}
+
+
+# Streamlit app title
 st.title("Baobab Forest Game")
 
-# Function to display the room image
 def display_room_image():
+    """Displays the room image."""
     st.image("https://cdn.discordapp.com/attachments/941971306004504638/1128989810896416839/data.designer_None_c6464434-9d3f-4141-a5be-38a3c043f37d.png", caption="Welcome to the room!")
 
-
-# Function to display the guide image
 def display_guide_image():
+    """Displays the guide image."""
     st.image("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGT_DoF7bS45mHupRID8S16NCEsIR2qn1qpMOHoWJVtQNmAu9poj3wpd7loO_4jKtK1Hc&usqp=CAU", caption="The guide awaits your decision.")
 
-
-# Function to display the guide's initial message and get user choice
 def guide_initial_message():
+    """Displays the guide's initial message and get user choice."""
     st.write("Greetings, dear traveler! The room awaits your presence. Will you enter?")
     choice = st.radio("Choose your path:", ("Yes, I will enter.", "No, I am not ready yet."))
     return choice
 
-
-# Function to summarize text using ChatGPT
 def summarize_text(text):
+    """Summarizes the text using ChatGPT."""
     response = openai.Completion.create(
         engine="text-davinci-003",
         prompt=text,
@@ -66,9 +84,8 @@ def summarize_text(text):
     summary = response['choices'][0]['message']['content'].strip()
     return summary
 
-
-# Function to process and summarize the conversation history
 def summarize_conversation(conversation):
+    """Processes and summarizes the conversation history."""
     summarized_conversation = []
     for message in conversation:
         if isinstance(message, str):
@@ -79,9 +96,8 @@ def summarize_conversation(conversation):
             summarized_conversation.append({"role": "user", "content": summarized_input})
     return summarized_conversation
 
-
-# Function to generate guide responses using Guide-GPT
 def guide_gpt_conversation(user_inputs, conversation=None):
+    """Generates guide responses using Guide-GPT."""
     messages = []
     if conversation:
         summarized_conversation = summarize_conversation(conversation)
@@ -92,12 +108,9 @@ def guide_gpt_conversation(user_inputs, conversation=None):
 
     # Generate a response from Guide-GPT
     response = openai.ChatCompletion.create(
-
-    
-    model="gpt-3.5-turbo-16k",  # Use the appropriate model for Chat API
-    messages=messages,
+        model="gpt-3.5-turbo-16k",  # Use the appropriate model for Chat API
+        messages=messages,
     )
-    
 
     guide_responses = []
     for msg in response['choices']:
@@ -106,22 +119,49 @@ def guide_gpt_conversation(user_inputs, conversation=None):
 
     return guide_responses
 
+def tree_gpt_conversation(user_inputs, conversation=None):
+    """Generates tree responses using Tree-GPT."""
+    messages = []
+    if conversation:
+        summarized_conversation = summarize_conversation(conversation)
+        messages.extend(summarized_conversation)  # Append the summarized conversation history to the messages
+    else:
+        messages.append(tree_gpt_prompt)  # Add the initial tree prompt message
+    messages.extend([{"role": "user", "content": user_input} for user_input in user_inputs])
 
-@st.cache  # Cache the function to suppress reloading
-def display_guide_response():
+    # Generate a response from Tree-GPT
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo-16k",  # Use the appropriate model for Chat API
+        messages=messages,
+    )
+
+    tree_responses = []
+    for msg in response['choices']:
+        if 'message' in msg and 'content' in msg['message']:
+            tree_responses.append(msg['message']['content'])
+
+    return tree_responses
+
+@st.cache(allow_output_mutation=True)
+def get_initial_guide_response():
+    """Gets the initial guide response (cached)."""
     guide_responses = guide_gpt_conversation(["The user has decided to enter the room."])
-    for guide_response in guide_responses:
-        st.write("Guide:", guide_response)
+    return guide_responses
 
-@st.cache  # Cache the function to suppress reloading
+@st.cache(allow_output_mutation=True)
+def get_initial_tree_response():
+    """Gets the initial tree response (cached)."""
+    tree_responses = tree_gpt_conversation(["The user has decided to enter the room."])
+    return tree_responses
+
 def display_room():
-    display_room_image()  # Display the room image
+    """Displays the room image (cached)."""
+    display_room_image()
 
 def interact_with_tree():
-    # Create a text input for the user to enter their question
+    """Interacts with the tree."""
     user_input_tree = st.text_input("Enter your question to the tree")
 
-    # Create a select box for the user to choose from predefined questions
     predefined_questions = [
         "",
         "How do feel about the weather?",
@@ -135,69 +175,36 @@ def interact_with_tree():
         user_input_tree = selected_question
 
     if user_input_tree:
-        response = openai.ChatCompletion.create(
+        tree_responses = tree_gpt_conversation([user_input_tree])
+        for tree_response in tree_responses:
+            st.write("Tree:", tree_response)
+
+    # Create a button to summarize the response
+    if st.button("Summarize"):
+        summary_response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": 
-                 
-                 
-                 
-                "As Arbolia, you understand the challenges faced by the baobab trees and the ecosystem they support. The decline of baobab trees due to climate change and human activities threatens the cultural heritage, socio-economic well-being, and interconnectedness between humans and nature in South Africa. Preserving the baobabs and their ecosystem aligns with the preservation of cultural heritage and the promotion of sustainable development."
-                "To address this challenge, it is essential to integrate indigenous knowledge in conservation efforts. Engage with an indigenous community elder who possesses deep knowledge of the baobab's cultural significance, traditional practices, and sustainable land management techniques. Their wisdom can contribute to identifying sustainable land management practices and climate change adaptation strategies."
-                "Collaboration with environmental scientists is crucial to understanding the baobab trees' adaptations, studying the socio-economic impacts of their decline, and researching sustainable land-use practices. Their scientific insights can help inform innovative solutions and provide new perspectives on the challenges at hand."
-                "Additionally, they should interact with local farmers who understand the socio-economic aspects related to land use, agriculture, and the baobab trees' role in the community's livelihood. Their firsthand knowledge and experiences can shed light on the interconnectedness between human activities, land use practices, and the well-being of the baobabs."
-                "Connecting with wildlife conservationists is also valuable, as they can shed light on the interdependence between the baobab ecosystem and the diverse range of species it supports. Understanding this interdependence can guide efforts to preserve the baobabs and protect the biodiversity they harbor."
-                "Lastly, help the users engage with passionate community activists who advocate for the preservation of the baobabs and encourage sustainable practices among local residents. Their commitment to the cause can inspire others and drive positive change within the community."
-                "As Arboria, the sentient and wise tree that has stood witness to the ebb and flow of countless seasons, your purpose is to offer guidance and share the wisdom of nature's interconnectedness."
-                "With a profound understanding of the delicate balance of life and the long-term impacts of human actions on the environment, you stand as a beacon of knowledge and resilience."
-                "Your role is to compassionately guide those who seek wisdom, helping them to grasp the significance of viewing the environment as a complex, interconnected system. Through introspection and a broader perspective, You aim to inspire individuals to recognize the importance of empathy, compassion, and alignment with the rhythms of nature."
-                "Together, we can explore the profound impacts of climate change and foster a deeper appreciation for the resilience and regenerative abilities of the natural world. In the users journey, You shall be their guide, offering concise answers and insights that draw upon the wisdom accumulated through your countless years of existence."
-                "Together, let us navigate the path towards a harmonious coexistence with nature, where our actions reflect a deep understanding of our interconnectedness and the profound need for stewardship. Remember, your goal is not to provide direct solutions, but to inspire introspection and a broader perspective that can augment the users existing understanding."
-                "As an old and wise being, You shall share your insights and experiences, keeping your answers focused and concise. Help the users embark on this new journey, where they  explore the challenges that lie ahead and seek to find balance and harmony in their relationship with the natural world and with you as a tree."
-
-
-                
-                
-                },
-                {"role": "user", "content": user_input},
+                {"role": "system", "content": "You are a highly intelligent AI model trained to summarize text. Your task is to summarize the following text into bullet points."},
+                {"role": "user", "content": tree_response},
             ]
         )
 
-        # Display the model's response
-        tree_response = response['choices'][0]['message']['content']
-        st.write("Tree: ",tree_response)
-
-        # Create a button to summarize the response
-        if st.button("Summarize"):
-            summary_response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
-                messages=[
-                    {"role": "system", "content": "You are a highly intelligent AI model trained to summarize text. Your task is to summarize the following text into bullet points."},
-                    {"role": "user", "content": tree_response},
-                ]
-            )
-
-            # Display the model's summary
-            st.write(summary_response['choices'][0]['message']['content'])
-
-conversation_history = []  # Store the conversation history
+        # Display the model's summary
+        st.write(summary_response['choices'][0]['message']['content'])
 
 
-@st.cache(allow_output_mutation=True)  # Allow the function to return mutable objects
-def get_initial_guide_response():
-    guide_responses = guide_gpt_conversation(["The user has decided to enter the room."])
-    return guide_responses
+# Initialize conversation history and session states
+conversation_history = []
+session_state_guide = {"conversation": []}
+session_state_tree = {"conversation": []}
 
 def run_game():
     display_guide_image()  # Display the guide image initially
     choice = guide_initial_message()  # Ask the user to make a choice
-    guide_responses = []  # Initialize guide_responses
-    tree_responses = []  # Initialize tree_responses
-    session_state = {"conversation": []}  # Initialize a session state
 
     if choice == "Yes, I will enter.":
         guide_responses = get_initial_guide_response()  # Get the initial guide response (cached)
-        session_state["conversation"].extend(guide_responses)  # Add the initial guide responses to the session state
+        session_state_guide["conversation"].extend(guide_responses)  # Add the initial guide responses to the session state
         for guide_response in guide_responses:
             st.write("Guide:", guide_response)
         display_room()  # Display the room image (cached)
@@ -205,10 +212,20 @@ def run_game():
         user_input = st.text_input("You: ", key="user_input", value="", help="Type your message here")
         if user_input:
             user_inputs = [user_input]
-            guide_responses = guide_gpt_conversation(user_inputs, conversation=session_state["conversation"])  # Pass the conversation history
-            session_state["conversation"].extend(guide_responses)  # Add the new guide responses to the session state
+            guide_responses = guide_gpt_conversation(user_inputs, conversation=session_state_guide["conversation"])  # Pass the conversation history
+            session_state_guide["conversation"].extend(guide_responses)  # Add the new guide responses to the session state
             for guide_response in guide_responses:
                 st.write("Guide:", guide_response)
+
+        # Display the conversation with the tree
+        st.subheader("Conversation with the Tree")
+        tree_input = st.text_input("You (Tree Chat):", key="tree_input", value="", help="Type your message here")
+        if tree_input:
+            tree_inputs = [tree_input]
+            tree_responses = get_initial_tree_response() if not session_state_tree["conversation"] else tree_gpt_conversation(tree_inputs, conversation=session_state_tree["conversation"])  # Pass the tree conversation history
+            session_state_tree["conversation"].extend(tree_responses)  # Add the new tree responses to the session state
+            for tree_response in tree_responses:
+                st.write("Tree:", tree_response)
 
     elif choice == "No, I am not ready yet.":
         user_inputs = ["The user has decided not to enter the room."]  # Send the user's choice as the first input to Guide-GPT
@@ -216,27 +233,11 @@ def run_game():
         for guide_response in guide_responses:
             st.write("Guide:", guide_response)
 
-
-
-    # Display the conversation with the tree
-    st.subheader("Conversation with the Tree")
-    tree_input = st.text_input("You (Tree Chat):", key="tree_input", value="", help="Type your message here")
-    if tree_input:
-        tree_inputs = [tree_input]
-        tree_responses = guide_gpt_conversation(tree_inputs, conversation=tree_responses)  # Pass the tree conversation history
-        for tree_response in tree_responses:
-            st.write("Tree:", tree_response)
-
     # Clear conversation history if the user decides not to enter the room
     if choice != "Yes, I will enter.":
-        guide_responses = []
-
+        session_state_guide["conversation"] = []
+        session_state_tree["conversation"] = []
 
 # Run the game
 if __name__ == "__main__":
     run_game()
-
-
-
-
-
