@@ -1,7 +1,6 @@
 import streamlit as st
 import openai
 import os
-import SessionState
 
 # Set your OpenAI API key
 openai.api_key = os.getenv("keyopenai")
@@ -209,7 +208,13 @@ session_state_tree = {"conversation": []}
 
 
 def run_game():
-    state = SessionState.get(user_input_guide="", user_input_tree="")
+    if "user_input_guide" not in st.session_state:
+    st.session_state.user_input_guide = ""
+
+    if "user_input_tree" not in st.session_state:
+        st.session_state.user_input_tree = ""
+    
+    state = st.session_state
     display_guide_image()  # Display the guide image initially
     choice = guide_initial_message()  # Ask the user to make a choice
 
@@ -221,7 +226,7 @@ def run_game():
         display_room()  # Display the room image (cached)
 
         # User input for guide conversation
-        state.user_input_guide = st.text_input("You (Guide Chat): ", key="user_input_guide", value=state.user_input_guide, help="Type your message for the guide here")
+        st.session_state.user_input_guide = st.text_input("You (Guide Chat): ", key="user_input_guide", value=st.session_state.user_input_guide, help="Type your message for the guide here")
         if state.user_input_guide:
             user_inputs_guide = [state.user_input_guide]
             guide_responses = guide_gpt_conversation(user_inputs_guide, conversation=session_state_guide["conversation"])  # Pass the conversation history
@@ -233,7 +238,7 @@ def run_game():
             st.subheader("Conversation with the Tree")
 
         # User input for tree conversation
-        state.user_input_tree = st.text_input("You (Tree Chat):", key="tree_input_tree", value=state.user_input_tree, help="Type your message for the tree here")
+        st.session_state.user_input_tree = st.text_input("You (Tree Chat):", key="tree_input_tree", value=st.session_state.user_input_tree, help="Type your message for the tree here")
         if state.user_input_tree:
             user_inputs_tree = [state.user_input_tree]
             tree_responses = tree_gpt_conversation(user_inputs_tree, conversation=session_state_tree["conversation"])  # Pass the tree conversation history
