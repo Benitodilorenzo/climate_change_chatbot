@@ -167,6 +167,7 @@ def interact_with_tree():
         session_state_tree["conversation"].extend([{"role": "user", "content": user_input_tree}] + [{"role": "tree", "content": tree_response} for tree_response in tree_responses])
         for tree_response in tree_responses:
             st.write("Tree:", tree_response)
+        
 
 
     predefined_questions = [
