@@ -193,9 +193,11 @@ def run_game():
     choice = guide_initial_message()  # Ask the user to make a choice
     guide_responses = []  # Initialize guide_responses
     tree_responses = []  # Initialize tree_responses
+    session_state = {"conversation": []}  # Initialize a session state
 
     if choice == "Yes, I will enter.":
         guide_responses = get_initial_guide_response()  # Get the initial guide response (cached)
+        session_state["conversation"].extend(guide_responses)  # Add the initial guide responses to the session state
         for guide_response in guide_responses:
             st.write("Guide:", guide_response)
         display_room()  # Display the room image (cached)
@@ -203,7 +205,8 @@ def run_game():
         user_input = st.text_input("You: ", key="user_input", value="", help="Type your message here")
         if user_input:
             user_inputs = [user_input]
-            guide_responses = guide_gpt_conversation(user_inputs, conversation=guide_responses)  # Pass the conversation history
+            guide_responses = guide_gpt_conversation(user_inputs, conversation=session_state["conversation"])  # Pass the conversation history
+            session_state["conversation"].extend(guide_responses)  # Add the new guide responses to the session state
             for guide_response in guide_responses:
                 st.write("Guide:", guide_response)
 
@@ -212,6 +215,7 @@ def run_game():
         guide_responses = guide_gpt_conversation(user_inputs)
         for guide_response in guide_responses:
             st.write("Guide:", guide_response)
+
 
 
     # Display the conversation with the tree
