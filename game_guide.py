@@ -1,6 +1,7 @@
 import streamlit as st
 import openai
 import os
+import SessionState
 
 # Set your OpenAI API key
 openai.api_key = os.getenv("keyopenai")
@@ -208,6 +209,7 @@ session_state_tree = {"conversation": []}
 
 
 def run_game():
+    state = SessionState.get(user_input_guide="", user_input_tree="")
     display_guide_image()  # Display the guide image initially
     choice = guide_initial_message()  # Ask the user to make a choice
 
@@ -219,24 +221,26 @@ def run_game():
         display_room()  # Display the room image (cached)
 
         # User input for guide conversation
-        user_input_guide = st.text_input("You (Guide Chat): ", key="user_input_guide", value="", help="Type your message for the guide here")
-        if user_input_guide:
-            user_inputs_guide = [user_input_guide]
+        state.user_input_guide = st.text_input("You (Guide Chat): ", key="user_input_guide", value=state.user_input_guide, help="Type your message for the guide here")
+        if state.user_input_guide:
+            user_inputs_guide = [state.user_input_guide]
             guide_responses = guide_gpt_conversation(user_inputs_guide, conversation=session_state_guide["conversation"])  # Pass the conversation history
             session_state_guide["conversation"].extend(guide_responses)  # Add the new guide responses to the session state
             for guide_response in guide_responses:
                 st.write("Guide:", guide_response)
-
-        st.subheader("Conversation with the Tree")
+            state.user_input_guide = ""  # Clear the input field
+    
+            st.subheader("Conversation with the Tree")
 
         # User input for tree conversation
-        user_input_tree = st.text_input("You (Tree Chat):", key="tree_input_tree", value="", help="Type your message for the tree here")
-        if user_input_tree:
-            user_inputs_tree = [user_input_tree]
+        state.user_input_tree = st.text_input("You (Tree Chat):", key="tree_input_tree", value=state.user_input_tree, help="Type your message for the tree here")
+        if state.user_input_tree:
+            user_inputs_tree = [state.user_input_tree]
             tree_responses = tree_gpt_conversation(user_inputs_tree, conversation=session_state_tree["conversation"])  # Pass the tree conversation history
             session_state_tree["conversation"].extend(tree_responses)  # Add the new tree responses to the session state
             for tree_response in tree_responses:
                 st.write("Tree:", tree_response)
+            state.user_input_tree = ""  # Clear the input field
 
     elif choice == "No, I am not ready yet.":
         user_inputs = ["The user has decided not to enter the room."]  # Send the user's choice as the first input to Guide-GPT
