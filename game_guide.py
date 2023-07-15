@@ -142,13 +142,13 @@ def tree_gpt_conversation(user_inputs, conversation=None):
 
     return tree_responses
 
-@st.cache_data(allow_output_mutation=True)
+@st.cache_data
 def get_initial_guide_response():
     """Gets the initial guide response (cached)."""
     guide_responses = guide_gpt_conversation(["The user has decided to enter the room."])
     return guide_responses
 
-@st.cache_data(allow_output_mutation=True)
+@st.cache_data
 def get_initial_tree_response():
     """Gets the initial tree response (cached)."""
     tree_responses = tree_gpt_conversation(["The user is approaching you and seeks your wisdom. They have been led to you by the guide."])
