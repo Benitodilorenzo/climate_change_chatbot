@@ -183,6 +183,11 @@ def interact_with_tree():
 conversation_history = []  # Store the conversation history
 
 
+@st.cache(allow_output_mutation=True)  # Allow the function to return mutable objects
+def get_initial_guide_response():
+    guide_responses = guide_gpt_conversation(["The user has decided to enter the room."])
+    return guide_responses
+
 def run_game():
     display_guide_image()  # Display the guide image initially
     choice = guide_initial_message()  # Ask the user to make a choice
@@ -190,7 +195,9 @@ def run_game():
     tree_responses = []  # Initialize tree_responses
 
     if choice == "Yes, I will enter.":
-        display_guide_response()  # Display the initial guide response (cached)
+        guide_responses = get_initial_guide_response()  # Get the initial guide response (cached)
+        for guide_response in guide_responses:
+            st.write("Guide:", guide_response)
         display_room()  # Display the room image (cached)
 
         user_input = st.text_input("You: ", key="user_input", value="", help="Type your message here")
@@ -205,6 +212,7 @@ def run_game():
         guide_responses = guide_gpt_conversation(user_inputs)
         for guide_response in guide_responses:
             st.write("Guide:", guide_response)
+
 
     # Display the conversation with the tree
     st.subheader("Conversation with the Tree")
