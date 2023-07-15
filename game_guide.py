@@ -223,7 +223,8 @@ def run_game():
             st.session_state["user_input_guide"] = ""
         user_input_guide = st.text_input("You (Guide Chat): ", key="user_input_guide", value=st.session_state["user_input_guide"], help="Type your message for the guide here")
 
-        if state.user_input_guide:
+        if st.session_state["user_input_guide"]:
+:
             user_inputs_guide = [state.user_input_guide]
             guide_responses = guide_gpt_conversation(user_inputs_guide, conversation=session_state_guide["conversation"])  # Pass the conversation history
             session_state_guide["conversation"].extend(guide_responses)  # Add the new guide responses to the session state
@@ -238,7 +239,7 @@ def run_game():
             st.session_state["user_input_tree"] = ""
         user_input_tree = st.text_input("You (Tree Chat):", key="user_input_tree", value=st.session_state["user_input_tree"], help="Type your message for the tree here")
 
-        if state.user_input_tree:
+        if st.session_state["user_input_tree"]:
             user_inputs_tree = [state.user_input_tree]
             tree_responses = tree_gpt_conversation(user_inputs_tree, conversation=session_state_tree["conversation"])  # Pass the tree conversation history
             session_state_tree["conversation"].extend(tree_responses)  # Add the new tree responses to the session state
