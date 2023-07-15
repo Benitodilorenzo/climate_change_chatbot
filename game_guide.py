@@ -221,8 +221,6 @@ def run_game():
         # User input for guide conversation
         if "user_input_guide" not in st.session_state:
             st.session_state["user_input_guide"] = ""
-        user_input_guide = st.text_input("You (Guide Chat): ", key="user_input_guide", value=st.session_state["user_input_guide"], help="Type your message for the guide here")
-
         if st.session_state["user_input_guide"]:
             user_inputs_guide = [st.session_state["user_input_guide"]]
             guide_responses = guide_gpt_conversation(user_inputs_guide, conversation=session_state_guide["conversation"])  # Pass the conversation history
@@ -230,14 +228,13 @@ def run_game():
             for guide_response in guide_responses:
                 st.write("Guide:", guide_response)
             st.session_state["user_input_guide"] = ""  # Clear the input field
-    
-            st.subheader("Conversation with the Tree")
+        user_input_guide = st.text_input("You (Guide Chat): ", key="user_input_guide", value=st.session_state["user_input_guide"], help="Type your message for the guide here")
+
+        st.subheader("Conversation with the Tree")
 
         # User input for tree conversation
         if "user_input_tree" not in st.session_state:
             st.session_state["user_input_tree"] = ""
-        user_input_tree = st.text_input("You (Tree Chat):", key="user_input_tree", value=st.session_state["user_input_tree"], help="Type your message for the tree here")
-
         if st.session_state["user_input_tree"]:
             user_inputs_tree = [st.session_state["user_input_tree"]]
             tree_responses = tree_gpt_conversation(user_inputs_tree, conversation=session_state_tree["conversation"])  # Pass the tree conversation history
@@ -245,6 +242,7 @@ def run_game():
             for tree_response in tree_responses:
                 st.write("Tree:", tree_response)
             st.session_state["user_input_tree"] = ""  # Clear the input field
+        user_input_tree = st.text_input("You (Tree Chat):", key="user_input_tree", value=st.session_state["user_input_tree"], help="Type your message for the tree here")
 
     elif choice == "No, I am not ready yet.":
         user_inputs = ["The user has decided not to enter the room."]  # Send the user's choice as the first input to Guide-GPT
@@ -255,6 +253,7 @@ def run_game():
         # Clear conversation history if the user decides not to enter the room
         session_state_guide["conversation"] = []
         session_state_tree["conversation"] = []
+
 
 # Run the game
 if __name__ == "__main__":
