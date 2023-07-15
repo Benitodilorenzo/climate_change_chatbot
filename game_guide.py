@@ -218,20 +218,22 @@ def run_game():
             st.write("Guide:", guide_response)
         display_room()  # Display the room image (cached)
 
-        user_input = st.text_input("You: ", key="user_input", value="", help="Type your message here")
-        if user_input:
-            user_inputs = [user_input]
-            guide_responses = guide_gpt_conversation(user_inputs, conversation=session_state_guide["conversation"])  # Pass the conversation history
+        # User input for guide conversation
+        user_input_guide = st.text_input("You (Guide Chat): ", key="user_input_guide", value="", help="Type your message for the guide here")
+        if user_input_guide:
+            user_inputs_guide = [user_input_guide]
+            guide_responses = guide_gpt_conversation(user_inputs_guide, conversation=session_state_guide["conversation"])  # Pass the conversation history
             session_state_guide["conversation"].extend(guide_responses)  # Add the new guide responses to the session state
             for guide_response in guide_responses:
                 st.write("Guide:", guide_response)
 
-        # Display the conversation with the tree
         st.subheader("Conversation with the Tree")
-        tree_input = st.text_input("You (Tree Chat):", key="tree_input", value="", help="Type your message here")
-        if tree_input:
-            tree_inputs = [tree_input]
-            tree_responses = get_initial_tree_response() if not session_state_tree["conversation"] else tree_gpt_conversation(tree_inputs, conversation=session_state_tree["conversation"])  # Pass the tree conversation history
+
+        # User input for tree conversation
+        user_input_tree = st.text_input("You (Tree Chat):", key="tree_input_tree", value="", help="Type your message for the tree here")
+        if user_input_tree:
+            user_inputs_tree = [user_input_tree]
+            tree_responses = tree_gpt_conversation(user_inputs_tree, conversation=session_state_tree["conversation"])  # Pass the tree conversation history
             session_state_tree["conversation"].extend(tree_responses)  # Add the new tree responses to the session state
             for tree_response in tree_responses:
                 st.write("Tree:", tree_response)
@@ -242,10 +244,10 @@ def run_game():
         for guide_response in guide_responses:
             st.write("Guide:", guide_response)
 
-    # Clear conversation history if the user decides not to enter the room
-    if choice != "Yes, I will enter.":
+        # Clear conversation history if the user decides not to enter the room
         session_state_guide["conversation"] = []
         session_state_tree["conversation"] = []
+
 
 # Run the game
 if __name__ == "__main__":
