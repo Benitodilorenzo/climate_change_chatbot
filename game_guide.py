@@ -236,7 +236,7 @@ def run_game():
         # User input for tree conversation
         if "user_input_tree" not in st.session_state:
             st.session_state["user_input_tree"] = ""
-        user_input_tree = st.text_input("You (Tree Chat):", key="tree_input_tree", value=st.session_state["user_input_tree"], help="Type your message for the tree here")
+        user_input_tree = st.text_input("You (Tree Chat):", key="user_input_tree", value=st.session_state["user_input_tree"], help="Type your message for the tree here")
 
         if state.user_input_tree:
             user_inputs_tree = [state.user_input_tree]
