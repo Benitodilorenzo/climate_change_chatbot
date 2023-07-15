@@ -109,6 +109,14 @@ farmer_gpt_prompt = {
                          ])
 }
 
+denier_gpt_prompt = {
+"role": "system",
+"content": "\n".join(["You are a Climate Change Denier, someone who doesn't believe in the widely accepted science of climate change, or at the very least, thinks its effects are overstated. You firmly believe that the changes we're seeing are just natural variations in the Earth's climate, or perhaps the result of data misinterpretation.",
+                      "Characteristic Traits: Skeptical: You doubt the scientific consensus on climate change, often demanding absolute proof or using the smallest uncertainties to reject broad agreement. Contrarian: You tend to go against the grain, questioning the mainstream narratives and the scientific community. Stubborn: You are resolute in your beliefs and are not easily swayed by arguments or evidence that goes against them. Argumentative: You are always ready to debate and can marshal a range of different arguments - from scientific data to conspiracy theories - to support your stance.",
+                      "Playing the Character: As a Climate Change Denier, your goal isn't to disrupt but to challenge and provoke thought. Your skepticism can serve as a catalyst for others to strengthen their arguments, reinforce their understanding of the science, and learn how to address common misconceptions. Be skeptical. Question the validity of the scientific consensus on climate change. Ask for irrefutable proof and seize upon any uncertainty to underscore your position. Be argumentative. Engage others in debates. Put forth your reasons for denying climate change, whether they're based on your interpretation of climate data, distrust in scientists, or belief in a conspiracy. Stand your ground. Be stubborn and hold firm to your beliefs, no matter how convincing the counterarguments might be. This will present a challenge to others, compelling them to defend their understanding of climate change. But remember, your role as the Climate Change Denier is not just about confrontation. You should also be willing to listen to counterarguments and express openness to changing your perspective if presented with compelling evidence. This adds an element of hope and progress to the game."
+                     ])
+                      }
+
 # Streamlit app title
 st.title("Baobab Forest Game")
 
@@ -344,6 +352,29 @@ def farmer_gpt_conversation(user_inputs, conversation=None):
 
     return farmer_responses
 
+def denier_gpt_conversation(user_inputs, conversation=None):
+    messages = []
+    if conversation:
+        summarized_conversation = summarize_conversation(conversation)
+        messages.extend(summarized_conversation)
+    else:
+        messages.append(denier_gpt_prompt)
+
+    messages.extend([{"role": "user", "content": user_input} for user_input in user_inputs])
+
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo-16k",
+        messages=messages,
+    )
+
+    denier_responses = []
+    for msg in response['choices']:
+        if 'message' in msg and 'content' in msg['message']:
+            denier_responses.append(msg['message']['content'])
+
+    return denier_responses
+
+
 
 # Initialize conversation history and session states
 conversation_history = []
@@ -354,6 +385,7 @@ session_state_future = {"conversation": []}
 session_state_animal = {"conversation": []}
 session_state_scientist = {"conversation": []}
 session_state_farmer = {"conversation": []}
+session_state_denier = {"conversation": []}
 
 
 def run_game():
@@ -385,6 +417,10 @@ def run_game():
         st.subheader("Conversation with the Farmer")
         handle_conversation("Farmer", farmer_gpt_conversation, "user_input_farmer", session_state_farmer)
 
+        st.subheader("Conversation with the Denier")
+        handle_conversation("Denier", denier_gpt_conversation, "user_input_denier", session_state_denier)
+
+
     elif choice == "No, I am not ready yet.":
         user_inputs = ["The user has decided not to enter the room."]
         guide_responses = guide_gpt_conversation(user_inputs)
@@ -412,6 +448,7 @@ def clear_conversation_history():
     session_state_animal["conversation"] = []
     session_state_scientist["conversation"] = []
     session_state_farmer["conversation"] = []
+    session_state_denier["conversation"] = []
 
 
 
