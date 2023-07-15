@@ -224,7 +224,6 @@ def run_game():
         user_input_guide = st.text_input("You (Guide Chat): ", key="user_input_guide", value=st.session_state["user_input_guide"], help="Type your message for the guide here")
 
         if st.session_state["user_input_guide"]:
-:
             user_inputs_guide = [state.user_input_guide]
             guide_responses = guide_gpt_conversation(user_inputs_guide, conversation=session_state_guide["conversation"])  # Pass the conversation history
             session_state_guide["conversation"].extend(guide_responses)  # Add the new guide responses to the session state
