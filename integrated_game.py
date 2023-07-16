@@ -436,7 +436,9 @@ def run_game():
         clear_conversation_history()
 
 def handle_conversation(character_name, conversation_function, user_input_key, session_state):
-    user_input = st.session_state.get(user_input_key, "")
+    if user_input_key not in st.session_state:
+        st.session_state[user_input_key] = ""
+    user_input = st.session_state[user_input_key]
     if st.button(f"Send to {character_name}"):
         user_inputs = [user_input]
         session_state["conversation"].extend([{"role": "user", "content": user_input}])
