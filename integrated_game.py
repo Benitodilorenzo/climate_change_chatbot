@@ -400,31 +400,31 @@ def run_game():
 
     if choice == "Yes, I will enter.":
         guide_responses = get_initial_guide_response()
-        session_state_guide["conversation"].extend(guide_responses)
+        session_state_guide["conversation"].extend([guide_gpt_prompt] + [{"role": "Guide", "content": guide_response} for guide_response in guide_responses])
         for guide_response in guide_responses:
             st.write("Guide:", guide_response)
         display_room()
 
         st.subheader("Conversation with the Guide")
-        handle_conversation("Guide", guide_gpt_conversation, "user_input_guide", session_state_guide)
+        handle_conversation("Guide", guide_gpt_conversation, "user_input_guide", session_state_guide, guide_gpt_prompt)
         
         st.subheader("Conversation with the Tree")
-        handle_conversation("Tree", tree_gpt_conversation, "user_input_tree", session_state_tree)
+        handle_conversation("Tree", tree_gpt_conversation, "user_input_tree", session_state_tree, tree_gpt_prompt)
 
         st.subheader("Conversation with FutureGPT")
-        handle_conversation("FutureGPT", future_gpt_conversation, "user_input_future", session_state_future)
+        handle_conversation("FutureGPT", future_gpt_conversation, "user_input_future", session_state_future, future_gpt_prompt)
 
         st.subheader("Conversation with the Animal")
-        handle_conversation("Animal", animal_gpt_conversation, "user_input_animal", session_state_animal)
+        handle_conversation("Animal", animal_gpt_conversation, "user_input_animal", session_state_animal, animal_gpt_prompt)
 
         st.subheader("Conversation with the Scientist")
-        handle_conversation("Scientist", scientist_gpt_conversation, "user_input_scientist", session_state_scientist)
+        handle_conversation("Scientist", scientist_gpt_conversation, "user_input_scientist", session_state_scientist, scientist_gpt_prompt)
 
         st.subheader("Conversation with the Farmer")
-        handle_conversation("Farmer", farmer_gpt_conversation, "user_input_farmer", session_state_farmer)
+        handle_conversation("Farmer", farmer_gpt_conversation, "user_input_farmer", session_state_farmer, farmer_gpt_prompt)
 
         st.subheader("Conversation with the Denier")
-        handle_conversation("Denier", denier_gpt_conversation, "user_input_denier", session_state_denier)
+        handle_conversation("Denier", denier_gpt_conversation, "user_input_denier", session_state_denier, denier_gpt_prompt)
 
 
     elif choice == "No, I am not ready yet.":
@@ -435,14 +435,18 @@ def run_game():
 
         clear_conversation_history()
 
-def handle_conversation(character_name, conversation_function, user_input_key, session_state):
+
+def handle_conversation(character_name, conversation_function, user_input_key, session_state, character_prompt):
     if user_input_key not in st.session_state:
         st.session_state[user_input_key] = ""
     user_input = st.session_state[user_input_key]
     if st.button(f"Send to {character_name}"):
         user_inputs = [user_input]
-        session_state["conversation"].extend([{"role": "user", "content": user_input}])
-        responses = conversation_function(user_inputs, conversation=session_state["conversation"])  # Generate responses using the current conversation history
+        # Add the user's input and the character's prompt to the conversation history
+        session_state["conversation"].extend([{"role": "user", "content": user_input}, character_prompt])
+        # Generate responses using the current conversation history
+        responses = conversation_function(user_inputs, conversation=session_state["conversation"])
+        # Add the generated responses to the conversation history
         session_state["conversation"].extend([{"role": character_name, "content": response} for response in responses])
         for response in responses:
             st.write(f"{character_name}:", response)
