@@ -153,12 +153,13 @@ def summarize_conversation(conversation):
     summarized_conversation = []
     for message in conversation:
         if isinstance(message, str):
-            summarized_conversation.append({"role": "system", "content": message})  # Add non-user messages as system role
-        elif message["role"] == "user":
-            user_input = message["content"]
-            summarized_input = summarize_text(user_input)  # Summarize the user message
-            summarized_conversation.append({"role": "user", "content": summarized_input})
+            summarized_conversation.append({"role": "system", "content": summarize_text(message)})  # Add non-user messages as system role
+        else:
+            content = message["content"]
+            summarized_input = summarize_text(content)  # Summarize the message
+            summarized_conversation.append({"role": message["role"], "content": summarized_input})
     return summarized_conversation
+
 
 def guide_gpt_conversation(user_inputs, conversation=None):
     """Generates guide responses using Guide-GPT."""
@@ -435,8 +436,12 @@ def handle_conversation(character_name, conversation_function, user_input_key, s
         st.session_state[user_input_key] = ""
     if st.session_state[user_input_key]:
         user_inputs = [st.session_state[user_input_key]]
+        # Append the user input to the conversation history
+        session_state["conversation"].append({"role": "user", "content": user_inputs[0]})
+        # Generate responses and append them to the conversation history
         responses = conversation_function(user_inputs, conversation=session_state["conversation"])
-        session_state["conversation"].extend(responses)
+        session_state["conversation"].extend([{"role": character_name, "content": response} for response in responses])
+        # Display the responses
         for response in responses:
             st.write(f"{character_name}:", response)
         st.session_state[user_input_key] = ""
