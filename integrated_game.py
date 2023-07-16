@@ -437,15 +437,15 @@ def run_game():
 
 def handle_conversation(character_name, conversation_function, user_input_key, session_state):
     user_input = st.session_state.get(user_input_key, "")
-    if user_input:
+    if st.button(f"Send to {character_name}"):
         user_inputs = [user_input]
         session_state["conversation"].extend([{"role": "user", "content": user_input}])
         responses = conversation_function(user_inputs, conversation=session_state["conversation"])  # Generate responses using the current conversation history
         session_state["conversation"].extend([{"role": character_name, "content": response} for response in responses])
         for response in responses:
             st.write(f"{character_name}:", response)
-    st.session_state[user_input_key] = st.text_input(f"You ({character_name} Chat): ", key=user_input_key, value="", help=f"Type your message for {character_name.lower()} here")
-
+        st.session_state[user_input_key] = ""  # Clear the input field after processing the user's input
+    user_input = st.text_input(f"You ({character_name} Chat): ", key=user_input_key, value=st.session_state[user_input_key], help=f"Type your message for {character_name.lower()} here")
 
 def clear_conversation_history():
     session_state_guide["conversation"] = []
