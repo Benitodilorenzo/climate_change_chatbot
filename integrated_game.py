@@ -139,14 +139,18 @@ def summarize_text(text):
     """Summarizes the text using ChatGPT."""
     response = openai.Completion.create(
         engine="text-davinci-003",
-        prompt=text,
+        prompt=f"{text}\n\nSummarize:",
         max_tokens=50,
         temperature=0.3,
         n=1,
         stop=None,
     )
-    summary = response['choices'][0]['message']['content'].strip()
-    return summary
+    if 'choices' in response and len(response['choices']) > 0 and 'text' in response['choices'][0]:
+        summary = response['choices'][0]['text'].strip()
+        return summary
+    else:
+        return text  # If summarization fails, return the original text
+
 
 def summarize_conversation(conversation):
     """Processes and summarizes the conversation history."""
