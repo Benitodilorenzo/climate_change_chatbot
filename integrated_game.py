@@ -440,7 +440,7 @@ def handle_conversation(character_name, conversation_function, user_input_key, s
         st.write(f"{character_name}:", response)
     st.session_state[user_input_key] = ""
     user_input = st.text_input(f"You ({character_name} Chat): ", key=user_input_key, value=st.session_state[user_input_key], help=f"Type your message for {character_name.lower()} here")
-
+    
 def clear_conversation_history():
     session_state_guide["conversation"] = []
     session_state_tree["conversation"] = []
