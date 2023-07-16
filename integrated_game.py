@@ -434,18 +434,14 @@ def run_game():
 def handle_conversation(character_name, conversation_function, user_input_key, session_state):
     if user_input_key not in st.session_state:
         st.session_state[user_input_key] = ""
-    if st.session_state[user_input_key]:
-        user_inputs = [st.session_state[user_input_key]]
-        # Append the user input to the conversation history
-        session_state["conversation"].append({"role": "user", "content": user_inputs[0]})
-        # Generate responses and append them to the conversation history
-        responses = conversation_function(user_inputs, conversation=session_state["conversation"])
-        session_state["conversation"].extend([{"role": character_name, "content": response} for response in responses])
-        # Display the responses
+    user_input = st.text_input(f"You ({character_name} Chat): ", key=user_input_key, value=st.session_state[user_input_key], help=f"Type your message for {character_name.lower()} here")
+    if user_input:
+        session_state["conversation"].append({"role": "user", "content": user_input})  # Append the user's input to the conversation
+        responses = conversation_function([user_input], conversation=session_state["conversation"])  # Generate responses using the current conversation history
+        session_state["conversation"].extend([{"role": character_name, "content": response} for response in responses])  # Append the generated responses to the conversation
         for response in responses:
             st.write(f"{character_name}:", response)
-        st.session_state[user_input_key] = ""
-    user_input = st.text_input(f"You ({character_name} Chat): ", key=user_input_key, value=st.session_state[user_input_key], help=f"Type your message for {character_name.lower()} here")
+        st.session_state[user_input_key] = ""  # Clear the input field after processing the user's input
 
 def clear_conversation_history():
     session_state_guide["conversation"] = []
