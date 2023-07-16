@@ -139,31 +139,26 @@ def summarize_text(text):
     """Summarizes the text using ChatGPT."""
     response = openai.Completion.create(
         engine="text-davinci-003",
-        prompt=f"{text}\n\nSummarize:",
+        prompt=text,
         max_tokens=50,
         temperature=0.3,
         n=1,
         stop=None,
     )
-    if 'choices' in response and len(response['choices']) > 0 and 'text' in response['choices'][0]:
-        summary = response['choices'][0]['text'].strip()
-        return summary
-    else:
-        return text  # If summarization fails, return the original text
-
+    summary = response['choices'][0]['message']['content'].strip()
+    return summary
 
 def summarize_conversation(conversation):
     """Processes and summarizes the conversation history."""
     summarized_conversation = []
     for message in conversation:
         if isinstance(message, str):
-            summarized_conversation.append({"role": "system", "content": summarize_text(message)})  # Add non-user messages as system role
-        else:
-            content = message["content"]
-            summarized_input = summarize_text(content)  # Summarize the message
-            summarized_conversation.append({"role": message["role"], "content": summarized_input})
+            summarized_conversation.append({"role": "system", "content": message})  # Add non-user messages as system role
+        elif message["role"] == "user":
+            user_input = message["content"]
+            summarized_input = summarize_text(user_input)  # Summarize the user message
+            summarized_conversation.append({"role": "user", "content": summarized_input})
     return summarized_conversation
-
 
 def guide_gpt_conversation(user_inputs, conversation=None):
     """Generates guide responses using Guide-GPT."""
@@ -400,31 +395,31 @@ def run_game():
 
     if choice == "Yes, I will enter.":
         guide_responses = get_initial_guide_response()
-        session_state_guide["conversation"].extend([guide_gpt_prompt] + [{"role": "Guide", "content": guide_response} for guide_response in guide_responses])
+        session_state_guide["conversation"].extend(guide_responses)
         for guide_response in guide_responses:
             st.write("Guide:", guide_response)
         display_room()
 
         st.subheader("Conversation with the Guide")
-        handle_conversation("Guide", guide_gpt_conversation, "user_input_guide", session_state_guide, guide_gpt_prompt)
+        handle_conversation("Guide", guide_gpt_conversation, "user_input_guide", session_state_guide)
         
         st.subheader("Conversation with the Tree")
-        handle_conversation("Tree", tree_gpt_conversation, "user_input_tree", session_state_tree, tree_gpt_prompt)
+        handle_conversation("Tree", tree_gpt_conversation, "user_input_tree", session_state_tree)
 
         st.subheader("Conversation with FutureGPT")
-        handle_conversation("FutureGPT", future_gpt_conversation, "user_input_future", session_state_future, future_gpt_prompt)
+        handle_conversation("FutureGPT", future_gpt_conversation, "user_input_future", session_state_future)
 
         st.subheader("Conversation with the Animal")
-        handle_conversation("Animal", animal_gpt_conversation, "user_input_animal", session_state_animal, animal_gpt_prompt)
+        handle_conversation("Animal", animal_gpt_conversation, "user_input_animal", session_state_animal)
 
         st.subheader("Conversation with the Scientist")
-        handle_conversation("Scientist", scientist_gpt_conversation, "user_input_scientist", session_state_scientist, scientist_gpt_prompt)
+        handle_conversation("Scientist", scientist_gpt_conversation, "user_input_scientist", session_state_scientist)
 
         st.subheader("Conversation with the Farmer")
-        handle_conversation("Farmer", farmer_gpt_conversation, "user_input_farmer", session_state_farmer, farmer_gpt_prompt)
+        handle_conversation("Farmer", farmer_gpt_conversation, "user_input_farmer", session_state_farmer)
 
         st.subheader("Conversation with the Denier")
-        handle_conversation("Denier", denier_gpt_conversation, "user_input_denier", session_state_denier, denier_gpt_prompt)
+        handle_conversation("Denier", denier_gpt_conversation, "user_input_denier", session_state_denier)
 
 
     elif choice == "No, I am not ready yet.":
@@ -435,22 +430,16 @@ def run_game():
 
         clear_conversation_history()
 
-
-def handle_conversation(character_name, conversation_function, user_input_key, session_state, character_prompt):
+def handle_conversation(character_name, conversation_function, user_input_key, session_state):
     if user_input_key not in st.session_state:
         st.session_state[user_input_key] = ""
-    user_input = st.session_state[user_input_key]
-    if st.button(f"Send to {character_name}"):
-        user_inputs = [user_input]
-        # Add the user's input and the character's prompt to the conversation history
-        session_state["conversation"].extend([{"role": "user", "content": user_input}, character_prompt])
-        # Generate responses using the current conversation history
+    if st.session_state[user_input_key]:
+        user_inputs = [st.session_state[user_input_key]]
         responses = conversation_function(user_inputs, conversation=session_state["conversation"])
-        # Add the generated responses to the conversation history
-        session_state["conversation"].extend([{"role": character_name, "content": response} for response in responses])
+        session_state["conversation"].extend(responses)
         for response in responses:
             st.write(f"{character_name}:", response)
-        st.session_state[user_input_key] = ""  # Clear the input field after processing the user's input
+        st.session_state[user_input_key] = ""
     user_input = st.text_input(f"You ({character_name} Chat): ", key=user_input_key, value=st.session_state[user_input_key], help=f"Type your message for {character_name.lower()} here")
 
 def clear_conversation_history():
