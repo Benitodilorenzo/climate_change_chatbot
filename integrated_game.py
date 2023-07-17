@@ -373,6 +373,8 @@ def denier_gpt_conversation(user_inputs, conversation=None):
         messages.append(denier_gpt_prompt)
 
     messages.extend([{"role": "user", "content": user_input} for user_input in user_inputs])
+    
+    print(messages)  # print the messages before sending them to the model
 
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo-16k",
@@ -444,6 +446,7 @@ def handle_conversation(character_name, conversation_function, user_input_key, s
         for response in responses:
             st.write(f"{character_name}:", response)
         st.session_state[user_input_key] = ""
+        print(session_state)  # print the session state after updating it
     user_input = st.text_input(f"You ({character_name} Chat): ", key=user_input_key, value=st.session_state[user_input_key], help=f"Type your message for {character_name.lower()} here")
 
 def clear_conversation_history():
