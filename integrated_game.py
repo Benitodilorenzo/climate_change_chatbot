@@ -428,6 +428,7 @@ def run_game():
         handle_conversation("Denier", denier_gpt_conversation, "user_input_denier", session_state_denier)
 
 
+
     elif choice == "No, I am not ready yet.":
         user_inputs = ["The user has decided not to enter the room."]
         guide_responses = guide_gpt_conversation(user_inputs)
@@ -442,7 +443,7 @@ def handle_conversation(character_name, conversation_function, user_input_key, s
     if st.session_state[user_input_key]:
         user_inputs = [st.session_state[user_input_key]]
         responses = conversation_function(user_inputs, conversation=session_state["conversation"])
-        session_state["conversation"].extend(responses)
+        session_state["conversation"].extend([{"role": "user", "content": user_input} for user_input in user_inputs] + [{"role": character_name, "content": response} for response in responses])
         for response in responses:
             st.write(f"{character_name}:", response)
         st.session_state[user_input_key] = ""
