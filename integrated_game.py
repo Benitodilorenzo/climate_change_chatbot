@@ -442,10 +442,16 @@ def handle_conversation(character_name, conversation_function, user_input_key, s
         st.session_state[user_input_key] = ""
     if st.session_state[user_input_key]:
         user_inputs = [st.session_state[user_input_key]]
-        responses = conversation_function(user_inputs, conversation=session_state["conversation"])
-        # session_state["conversation"].extend([{"role": "user", "content": user_input} for user_input in user_inputs] + [{"role": character_name, "content": response} for response in responses])
-        session_state_denier["conversation"].extend([{"role": "user", "content": user_input}, {"role": "Denier", "content": response}])
-
+        
+        # Retrieve the conversation history from the session state
+        conversation_history = session_state.get("conversation", [])
+        
+        # Pass the conversation history into the conversation function
+        responses = conversation_function(user_inputs, conversation=conversation_history)
+        
+        # Update the conversation history in the session state
+        session_state["conversation"] = conversation_history + [{"role": character_name, "content": response} for response in responses]
+        
         for response in responses:
             st.write(f"{character_name}:", response)
         st.session_state[user_input_key] = ""
