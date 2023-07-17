@@ -5,6 +5,17 @@ import os
 # Set your OpenAI API key
 openai.api_key = os.getenv("keyopenai")
 
+
+# Initialize session states for each character
+session_state_guide = {"conversation": []}
+session_state_tree = {"conversation": []}
+session_state_future = {"conversation": []}
+session_state_animal = {"conversation": []}
+session_state_scientist = {"conversation": []}
+session_state_farmer = {"conversation": []}
+session_state_denier = {"conversation": []}
+
+
 # Guide-GPT and Tree-GPT role assignment with context and background knowledge
 guide_gpt_prompt = {
     "role": "system",
@@ -379,14 +390,7 @@ def denier_gpt_conversation(user_inputs, conversation=None):
 
 # Initialize conversation history and session states
 conversation_history = []
-# Initialize session states for each character
-session_state_guide = {"conversation": []}
-session_state_tree = {"conversation": []}
-session_state_future = {"conversation": []}
-session_state_animal = {"conversation": []}
-session_state_scientist = {"conversation": []}
-session_state_farmer = {"conversation": []}
-session_state_denier = {"conversation": []}
+
 
 
 def run_game():
