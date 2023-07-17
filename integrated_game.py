@@ -437,29 +437,27 @@ def run_game():
 
         clear_conversation_history()
 
-# Initialize a global conversation history
-conversation_histories = {
-    "Guide": [],
-    "Tree": [],
-    "FutureGPT": [],
-    "Animal": [],
-    "Scientist": [],
-    "Farmer": [],
-    "Denier": []
-}
-
-def handle_conversation(character_name, conversation_function, user_input_key):
-    global conversation_histories
-    user_input = st.text_input(f"You ({character_name} Chat): ", key=user_input_key)
-
-    if user_input:
-        responses = conversation_function([user_input], conversation=conversation_histories[character_name])
-        conversation_histories[character_name].extend([{"role": "user", "content": user_input}] + [{"role": character_name, "content": response} for response in responses])
+def handle_conversation(character_name, conversation_function, user_input_key, session_state):
+    if user_input_key not in st.session_state:
+        st.session_state[user_input_key] = ""
+    if st.session_state[user_input_key]:
+        user_inputs = [st.session_state[user_input_key]]
+        
+        # Retrieve the conversation history from the session state
+        conversation_history = session_state.get("conversation", [])
+        
+        # Pass the conversation history into the conversation function
+        responses = conversation_function(user_inputs, conversation=conversation_history)
+        
+        # Update the conversation history in the session state
+        session_state["conversation"] = conversation_history + [{"role": character_name, "content": response} for response in responses]
         
         for response in responses:
             st.write(f"{character_name}:", response)
         st.session_state[user_input_key] = ""
-        print(conversation_histories)  # print the conversation histories after updating them
+        print(session_state)  # print the session state after updating it
+    user_input = st.text_input(f"You ({character_name} Chat): ", key=user_input_key, value=st.session_state[user_input_key], help=f"Type your message for {character_name.lower()} here")
+
 
 def clear_conversation_history():
     session_state_guide["conversation"] = []
