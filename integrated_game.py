@@ -428,6 +428,7 @@ def run_game():
         handle_conversation("Tree", tree_gpt_conversation, "user_input_tree", session_state_tree)
 
         st.subheader("Conversation with FutureGPT")
+        st.image("https://raw.githubusercontent.com/Benitodilorenzo/climate_change_chatbot/main/data.designer_a_time-machine_for_visitors_of_the_museum_to_sit__207d5110-8eb4-43e9-9cbf-cd5d51d19635.png", caption="Welcome to the room!")
         handle_conversation("FutureGPT", future_gpt_conversation, "user_input_future", session_state_future)
 
         st.subheader("Conversation with the Animal")
