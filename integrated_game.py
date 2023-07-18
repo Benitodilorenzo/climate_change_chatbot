@@ -454,7 +454,7 @@ def run_game():
         elif selected_character == "Animal":
             st.subheader("Conversation with the Animal")
             handle_conversation("Animal", animal_gpt_conversation, "user_input_animal", session_state_animal)
-            st.image("", caption="The Innocent Wounded Animal")
+            st.image("https://raw.githubusercontent.com/Benitodilorenzo/climate_change_chatbot/main/data.designer_a_wounded_animal_in_the_South_African_grasslands_29498161-58c3-41c4-a8b0-651ad3e056e1.png", caption="The Innocent Wounded Animal")
 
         elif selected_character == "Scientist":
             st.subheader("Conversation with the Scientist")
@@ -464,7 +464,7 @@ def run_game():
         elif selected_character == "Farmer":
             st.subheader("Conversation with the Farmer")
             handle_conversation("Farmer", farmer_gpt_conversation, "user_input_farmer", session_state_farmer)
-            st.image("", caption="The Wise old Farmer")
+            st.image("https://raw.githubusercontent.com/Benitodilorenzo/climate_change_chatbot/main/farmer.jpg", caption="The Wise old Farmer")
 
         elif selected_character == "Denier":
             st.subheader("Conversation with the Denier")
