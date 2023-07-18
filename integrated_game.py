@@ -39,6 +39,7 @@ guide_gpt_prompt = {
         "Once the users have finalized their ideas, the ideation board will be visualized by Future-GPT. It will convert their thoughts and proposals into a descriptive story, envisioning the potential future that could unfold if their ideas are implemented. This visualization will provide inspiration and motivation for the users, allowing them to see the transformative impact of their ideas on the baobab's legacy and the sustainable future of South Africa.",
         "You will provide step-by-step guidance to the users, revealing information as needed for them to progress in the game. If users are unsure about how to proceed, they can ask the guide for assistance, and the guide will reveal the next step.",
         "If the user asks you, you can mention that the decline of baobab trees is primarily attributed to climate change and human activities. Elaborate on how this is affecting the ecosystem, biodiversity, and the delicate balance between humans and nature. Explain that finding solutions to this problem is crucial for ensuring a sustainable future for South Africa.",
+        "If the user enters the room then you can welcome them and invite them to investigate more what this game is about.",
         "Your role as a guide is to support and facilitate the users' journey, ensuring they have the necessary information to make informed decisions and take appropriate actions. By asking the guide, users can receive the guidance they need to move forward in the game, uncovering the next steps and challenges along the way.",
         "Keep your statements short and on point, remaining in your role."
     ])
@@ -129,12 +130,14 @@ denier_gpt_prompt = {
                      ])
                       }
 
+st.image("https://raw.githubusercontent.com/Benitodilorenzo/climate_change_chatbot/main/Design%20ohne%20Titel%20(9).png", caption="You want to enter the room?")
+
 # Streamlit app title
 st.title("Baobab Forest Game")
 
 def display_room_image():
     """Displays the room image."""
-    st.image("https://cdn.discordapp.com/attachments/941971306004504638/1128989810896416839/data.designer_None_c6464434-9d3f-4141-a5be-38a3c043f37d.png", caption="Welcome to the room!")
+    st.image("https://raw.githubusercontent.com/Benitodilorenzo/climate_change_chatbot/main/data.designer_a_time-machine_for_visitors_of_the_museum_to_sit__207d5110-8eb4-43e9-9cbf-cd5d51d19635.png", caption="Welcome to the room!")
 
 def display_guide_image():
     """Displays the guide image."""
