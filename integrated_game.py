@@ -152,7 +152,7 @@ def display_room_image():
 
 def display_guide_image():
     """Displays the guide image."""
-    st.image("https://www.figma.com/file/Aj4j2yk4mbLaByMEASrk2f/Team-10---Prototype-Taling-to-trees?type=design&node-id=41-200&mode=design&t=lGW2SNDeYNwisitp-4", caption="The guide awaits your decision.")
+    st.image("https://raw.githubusercontent.com/Benitodilorenzo/climate_change_chatbot/main/image%20(1).png", caption="The guide awaits your decision.")
 
 def guide_initial_message():
     """Displays the guide's initial message and get user choice."""
