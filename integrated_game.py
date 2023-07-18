@@ -433,39 +433,36 @@ def run_game():
             st.write("Guide:", guide_response)
         display_room()
         
-        st.subheader("You can keep talking to the guide or move on")
+        st.subheader("You can keep talking to the guide or choose another character to interact with")
+
         handle_conversation("Guide", guide_gpt_conversation, "user_input_guide", session_state_guide)
-        
-        choicetree = tree_initial_message()
-        if choice == "Yes, I want to talk to the tree.":
-            treeresponses = get_initial_tree_response()
-            session_state_tree["conversation"].extend(tree_responses)
-            for tree_response in tree_responses:
-                st.write("Tree:", tree_response)
+
+        characters = ["Choose a character...", "Tree", "FutureGPT", "Animal", "Scientist", "Farmer", "Denier"]
+        selected_character = st.selectbox("Choose a character to interact with", characters)
+
+        if selected_character == "Tree":
             st.subheader("Conversation with the Tree")
             handle_conversation("Tree", tree_gpt_conversation, "user_input_tree", session_state_tree)
-         elif choice == "No i want to look around.":
-                st.write("Thats okay we respect that, just continue to explore as you wish...")
-                
-        
 
-        st.subheader("Conversation with FutureGPT")
-        st.image("https://raw.githubusercontent.com/Benitodilorenzo/climate_change_chatbot/main/data.designer_a_time-machine_for_visitors_of_the_museum_to_sit__207d5110-8eb4-43e9-9cbf-cd5d51d19635.png", caption="Welcome to the room!")
-        handle_conversation("FutureGPT", future_gpt_conversation, "user_input_future", session_state_future)
+        elif selected_character == "FutureGPT":
+            st.subheader("Conversation with FutureGPT")
+            handle_conversation("FutureGPT", future_gpt_conversation, "user_input_future", session_state_future)
 
-        st.subheader("Conversation with the Animal")
-        handle_conversation("Animal", animal_gpt_conversation, "user_input_animal", session_state_animal)
+        elif selected_character == "Animal":
+            st.subheader("Conversation with the Animal")
+            handle_conversation("Animal", animal_gpt_conversation, "user_input_animal", session_state_animal)
 
-        st.subheader("Conversation with the Scientist")
-        handle_conversation("Scientist", scientist_gpt_conversation, "user_input_scientist", session_state_scientist)
+        elif selected_character == "Scientist":
+            st.subheader("Conversation with the Scientist")
+            handle_conversation("Scientist", scientist_gpt_conversation, "user_input_scientist", session_state_scientist)
 
-        st.subheader("Conversation with the Farmer")
-        handle_conversation("Farmer", farmer_gpt_conversation, "user_input_farmer", session_state_farmer)
+        elif selected_character == "Farmer":
+            st.subheader("Conversation with the Farmer")
+            handle_conversation("Farmer", farmer_gpt_conversation, "user_input_farmer", session_state_farmer)
 
-        st.subheader("Conversation with the Denier")
-        handle_conversation("Denier", denier_gpt_conversation, "user_input_denier", session_state_denier)
-
-
+        elif selected_character == "Denier":
+            st.subheader("Conversation with the Denier")
+            handle_conversation("Denier", denier_gpt_conversation, "user_input_denier", session_state_denier)
 
     elif choice == "No, I am not ready yet.":
         user_inputs = ["The user has decided not to enter the room."]
@@ -474,6 +471,7 @@ def run_game():
             st.write("Guide:", guide_response)
 
         clear_conversation_history()
+
 
 def handle_conversation(character_name, conversation_function, user_input_key, session_state):
     if user_input_key not in st.session_state:
