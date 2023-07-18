@@ -135,6 +135,18 @@ st.image("https://raw.githubusercontent.com/Benitodilorenzo/climate_change_chatb
 # Streamlit app title
 st.title("Baobab Forest Game")
 
+def set_page_background_and_text_color(background_color, text_color):
+    st.markdown(f"""
+                <style>
+                body {{
+                    background-color: {background_color};
+                    color: {text_color};
+                }}
+                </style>
+                """, unsafe_allow_html=True)
+
+set_page_background_and_text_color('#000000', '#FFFFFF') 
+
 def display_room_image():
     """Displays the room image."""
     st.image("https://raw.githubusercontent.com/Benitodilorenzo/climate_change_chatbot/main/tree4.jpg", caption="Welcome to the room!")
