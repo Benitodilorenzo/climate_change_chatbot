@@ -436,16 +436,18 @@ def run_game():
         st.subheader("You can keep talking to the guide or move on")
         handle_conversation("Guide", guide_gpt_conversation, "user_input_guide", session_state_guide)
         
-        # choicetree = tree_initial_message()
-        # if choice == "Yes, I want to talk to the tree.":
-        #     treeresponses = get_initial_tree_response()
-        #     session_state_tree["conversation"].extend(tree_responses)
-        #     for tree_response in tree_responses:
-        #         st.write("Tree:", tree_response)
+        choicetree = tree_initial_message()
+        if choice == "Yes, I want to talk to the tree.":
+            treeresponses = get_initial_tree_response()
+            session_state_tree["conversation"].extend(tree_responses)
+            for tree_response in tree_responses:
+                st.write("Tree:", tree_response)
+            st.subheader("Conversation with the Tree")
+            handle_conversation("Tree", tree_gpt_conversation, "user_input_tree", session_state_tree)
+         elif choice == "No i want to look around.":
+                st.write("Thats okay we respect that, just continue to explore as you wish...")
                 
         
-        st.subheader("Conversation with the Tree")
-        handle_conversation("Tree", tree_gpt_conversation, "user_input_tree", session_state_tree)
 
         st.subheader("Conversation with FutureGPT")
         st.image("https://raw.githubusercontent.com/Benitodilorenzo/climate_change_chatbot/main/data.designer_a_time-machine_for_visitors_of_the_museum_to_sit__207d5110-8eb4-43e9-9cbf-cd5d51d19635.png", caption="Welcome to the room!")
