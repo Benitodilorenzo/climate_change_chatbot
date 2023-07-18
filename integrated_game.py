@@ -137,7 +137,7 @@ st.title("Baobab Forest Game")
 
 def display_room_image():
     """Displays the room image."""
-    st.image("https://raw.githubusercontent.com/Benitodilorenzo/climate_change_chatbot/main/data.designer_a_time-machine_for_visitors_of_the_museum_to_sit__207d5110-8eb4-43e9-9cbf-cd5d51d19635.png", caption="Welcome to the room!")
+    st.image("https://raw.githubusercontent.com/Benitodilorenzo/climate_change_chatbot/main/tree4.jpg", caption="Welcome to the room!")
 
 def display_guide_image():
     """Displays the guide image."""
