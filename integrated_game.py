@@ -157,7 +157,7 @@ def display_guide_image():
 def guide_initial_message():
     """Displays the guide's initial message and get user choice."""
     st.write("Greetings, dear traveler! The room awaits your presence. Will you enter?")
-    choice = st.radio("Choose your path:", ("Yes, I will enter.", "No, I am not ready yet."))
+    choice = st.radio("Choose your path:", ("Choose wisely...", "Yes, I will enter.", "No, I am not ready yet."))
     return choice
 
 def summarize_text(text):
