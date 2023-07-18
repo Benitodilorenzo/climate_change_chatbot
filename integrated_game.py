@@ -163,8 +163,8 @@ def guide_initial_message():
 def tree_initial_message():
     
     st.write("Do you want to talk to the tree?")
-    choice = st.radio("Choose your path:", ("Choose wisely...", "Yes, I want to talk to the tree.", "No i want to look around."))
-    return choice
+    choicetree = st.radio("Choose your path:", ("Choose wisely...", "Yes, I want to talk to the tree.", "No i want to look around."))
+    return choicetree
 
 def summarize_text(text):
     """Summarizes the text using ChatGPT."""
@@ -436,12 +436,12 @@ def run_game():
         st.subheader("You can keep talking to the guide or move on")
         handle_conversation("Guide", guide_gpt_conversation, "user_input_guide", session_state_guide)
         
-        choicetree = tree_initial_message()
-        if choice == "Yes, I want to talk to the tree.":
-            treeresponses = get_initial_tree_response()
-            session_state_tree["conversation"].extend(tree_responses)
-            for tree_response in tree_responses:
-                st.write("Tree:", tree_response)
+        # choicetree = tree_initial_message()
+        # if choice == "Yes, I want to talk to the tree.":
+        #     treeresponses = get_initial_tree_response()
+        #     session_state_tree["conversation"].extend(tree_responses)
+        #     for tree_response in tree_responses:
+        #         st.write("Tree:", tree_response)
                 
         
         st.subheader("Conversation with the Tree")
