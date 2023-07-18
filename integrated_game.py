@@ -410,7 +410,6 @@ conversation_history = []
 
 
 def run_game():
-    set_page_background_and_text_color('#000000', '#FFFFFF') 
 
     display_guide_image()
     choice = guide_initial_message()
@@ -489,4 +488,6 @@ def clear_conversation_history():
 # Run the game
 if __name__ == "__main__":
     run_game()
+    set_page_background_and_text_color('#000000', '#FFFFFF') 
+    
 
