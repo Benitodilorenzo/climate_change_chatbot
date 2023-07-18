@@ -145,7 +145,6 @@ def set_page_background_and_text_color(background_color, text_color):
                 </style>
                 """, unsafe_allow_html=True)
 
-set_page_background_and_text_color('#000000', '#FFFFFF') 
 
 def display_room_image():
     """Displays the room image."""
@@ -411,6 +410,8 @@ conversation_history = []
 
 
 def run_game():
+    set_page_background_and_text_color('#000000', '#FFFFFF') 
+
     display_guide_image()
     choice = guide_initial_message()
 
@@ -488,3 +489,4 @@ def clear_conversation_history():
 # Run the game
 if __name__ == "__main__":
     run_game()
+
