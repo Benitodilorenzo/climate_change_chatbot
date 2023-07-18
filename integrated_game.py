@@ -160,6 +160,12 @@ def guide_initial_message():
     choice = st.radio("Choose your path:", ("Choose wisely...", "Yes, I will enter.", "No, I am not ready yet."))
     return choice
 
+def tree_initial_message():
+    
+    st.write("Do you want to talk to the tree?")
+    choice = st.radio("Choose your path:", ("Choose wisely...", "Yes, I want to talk to the tree.", "No i want to look around."))
+    return choice
+
 def summarize_text(text):
     """Summarizes the text using ChatGPT."""
     response = openai.Completion.create(
@@ -236,6 +242,12 @@ def get_initial_guide_response():
     """Gets the initial guide response (cached)."""
     guide_responses = guide_gpt_conversation(["The user has decided to enter the room."])
     return guide_responses
+    
+@st.cache_data
+def get_initial_tree_response():
+    """Gets the initial guide response (cached)."""
+    guide_responses = tree_gpt_conversation(["The visitor is approaching you, ask him what he wants..."])
+    return tree_responses
 
 @st.cache_data
 def get_initial_tree_response():
@@ -420,9 +432,17 @@ def run_game():
         for guide_response in guide_responses:
             st.write("Guide:", guide_response)
         display_room()
-
-        st.subheader("Conversation with the Guide")
+        
+        st.subheader("You can keep talking to the guide or move on")
         handle_conversation("Guide", guide_gpt_conversation, "user_input_guide", session_state_guide)
+        
+        choicetree = tree_initial_message()
+        if choice == "Yes, I want to talk to the tree.":
+            treeresponses = get_initial_tree_response()
+            session_state_tree["conversation"].extend(tree_responses)
+            for tree_response in tree_responses:
+                st.write("Tree:", tree_response)
+                
         
         st.subheader("Conversation with the Tree")
         handle_conversation("Tree", tree_gpt_conversation, "user_input_tree", session_state_tree)
