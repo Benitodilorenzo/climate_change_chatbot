@@ -152,7 +152,7 @@ def display_room_image():
 
 def display_guide_image():
     """Displays the guide image."""
-    st.image("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGT_DoF7bS45mHupRID8S16NCEsIR2qn1qpMOHoWJVtQNmAu9poj3wpd7loO_4jKtK1Hc&usqp=CAU", caption="The guide awaits your decision.")
+    st.image("https://www.figma.com/file/Aj4j2yk4mbLaByMEASrk2f/Team-10---Prototype-Taling-to-trees?type=design&node-id=41-200&mode=design&t=lGW2SNDeYNwisitp-4", caption="The guide awaits your decision.")
 
 def guide_initial_message():
     """Displays the guide's initial message and get user choice."""
