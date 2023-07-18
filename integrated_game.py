@@ -443,26 +443,33 @@ def run_game():
         if selected_character == "Tree":
             st.subheader("Conversation with the Tree")
             handle_conversation("Tree", tree_gpt_conversation, "user_input_tree", session_state_tree)
+            st.image("https://raw.githubusercontent.com/Benitodilorenzo/climate_change_chatbot/main/wise_baobab.jpg", caption="The Wise old Tree")
+
 
         elif selected_character == "FutureGPT":
             st.subheader("Conversation with FutureGPT")
             handle_conversation("FutureGPT", future_gpt_conversation, "user_input_future", session_state_future)
-
+            st.image("https://raw.githubusercontent.com/Benitodilorenzo/climate_change_chatbot/main/data.designer_a_time-machine_for_visitors_of_the_museum_to_sit__207d5110-8eb4-43e9-9cbf-cd5d51d19635.png", caption="The Timemachine to see the Future")
+            
         elif selected_character == "Animal":
             st.subheader("Conversation with the Animal")
             handle_conversation("Animal", animal_gpt_conversation, "user_input_animal", session_state_animal)
+            st.image("", caption="The Innocent Wounded Animal")
 
         elif selected_character == "Scientist":
             st.subheader("Conversation with the Scientist")
             handle_conversation("Scientist", scientist_gpt_conversation, "user_input_scientist", session_state_scientist)
+            st.image("https://raw.githubusercontent.com/Benitodilorenzo/climate_change_chatbot/main/scientist.jpg", caption="The Absent-Minded-Scientist")
 
         elif selected_character == "Farmer":
             st.subheader("Conversation with the Farmer")
             handle_conversation("Farmer", farmer_gpt_conversation, "user_input_farmer", session_state_farmer)
+            st.image("", caption="The Wise old Farmer")
 
         elif selected_character == "Denier":
             st.subheader("Conversation with the Denier")
             handle_conversation("Denier", denier_gpt_conversation, "user_input_denier", session_state_denier)
+            st.image("https://raw.githubusercontent.com/Benitodilorenzo/climate_change_chatbot/main/denier-sceptic.jpg", caption="The Controversial Debater")
 
     elif choice == "No, I am not ready yet.":
         user_inputs = ["The user has decided not to enter the room."]
