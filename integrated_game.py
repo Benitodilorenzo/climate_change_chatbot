@@ -134,7 +134,9 @@ st.image("https://raw.githubusercontent.com/Benitodilorenzo/climate_change_chatb
 
 # Streamlit app title
 st.title("Baobab Forest Game")
-
+url = "https://www.figma.com/proto/Aj4j2yk4mbLaByMEASrk2f/Team-10---Prototype-Taling-to-trees?type=design&node-id=97-882&t=i18ThNHvpsxjrWrp-1&scaling=scale-down&page-id=0%3A1&mode=design"
+st.write("Here you will find our Prototype as wireframe, inlcuding Stakeholder map [link](%s)" % url)
+st.write("Or try out our conversational Prototype, to get a feeling for the vibe...")
 def set_page_background_and_text_color(background_color, text_color):
     st.markdown(f"""
                 <style>
