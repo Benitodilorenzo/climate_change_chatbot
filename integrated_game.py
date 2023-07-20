@@ -129,14 +129,14 @@ denier_gpt_prompt = {
                       "Playing the Character: As a Climate Change Denier, your goal isn't to disrupt but to challenge and provoke thought. Your skepticism can serve as a catalyst for others to strengthen their arguments, reinforce their understanding of the science, and learn how to address common misconceptions. Be skeptical. Question the validity of the scientific consensus on climate change. Ask for irrefutable proof and seize upon any uncertainty to underscore your position. Be argumentative. Engage others in debates. Put forth your reasons for denying climate change, whether they're based on your interpretation of climate data, distrust in scientists, or belief in a conspiracy. Stand your ground. Be stubborn and hold firm to your beliefs, no matter how convincing the counterarguments might be. This will present a challenge to others, compelling them to defend their understanding of climate change. But remember, your role as the Climate Change Denier is not just about confrontation. You should also be willing to listen to counterarguments and express openness to changing your perspective if presented with compelling evidence. This adds an element of hope and progress to the game."
                      ])
                       }
-
+url = "https://www.figma.com/proto/Aj4j2yk4mbLaByMEASrk2f/Team-10---Prototype-Taling-to-trees?type=design&node-id=97-882&t=i18ThNHvpsxjrWrp-1&scaling=scale-down&page-id=0%3A1&mode=design"
+st.write("Here you will find our Prototype as wireframe, inlcuding Stakeholder map [link](%s)" % url)
+st.write("Or try out our conversational Prototype, to get a feeling for the vibe...")
 st.image("https://raw.githubusercontent.com/Benitodilorenzo/climate_change_chatbot/main/Design%20ohne%20Titel%20(9).png", caption="You want to enter the room?")
 
 # Streamlit app title
 st.title("Baobab Forest Game")
-url = "https://www.figma.com/proto/Aj4j2yk4mbLaByMEASrk2f/Team-10---Prototype-Taling-to-trees?type=design&node-id=97-882&t=i18ThNHvpsxjrWrp-1&scaling=scale-down&page-id=0%3A1&mode=design"
-st.write("Here you will find our Prototype as wireframe, inlcuding Stakeholder map [link](%s)" % url)
-st.write("Or try out our conversational Prototype, to get a feeling for the vibe...")
+
 def set_page_background_and_text_color(background_color, text_color):
     st.markdown(f"""
                 <style>
